@@ -1,0 +1,217 @@
+/* Zenith Growth: desktop layout on all devices (see gg-desktop-viewport-fit.js). */
+
+html.gg-public-root.gg-desktop-lock .gg-nav-toggle {
+  display: none !important;
+}
+
+html.gg-public-root.gg-desktop-boot:not(.gg-desktop-ready) body {
+  visibility: hidden;
+}
+
+/* Public pages never use the auth/dashboard mobile breakpoints in home.css */
+@media (max-width: 960px) {
+  body.gg-public .gg-nav-toggle {
+    display: none !important;
+  }
+
+  body.gg-public .gg-header-inner {
+    flex-wrap: nowrap !important;
+  }
+
+  body.gg-public .gg-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-basis: auto !important;
+    border-top: none !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  body.gg-public .gg-nav > a,
+  body.gg-public .gg-nav summary {
+    border-bottom: none !important;
+  }
+
+  body.gg-public .gg-drop {
+    position: absolute !important;
+    min-width: 15rem !important;
+    box-shadow: 0 8px 24px rgba(26, 35, 50, 0.08) !important;
+  }
+}
+
+/* Isolate marketing from dashboard Tailwind dark theme (next-themes default). */
+html.gg-public-root,
+html.gg-public-root.dark {
+  color-scheme: light;
+}
+
+html.gg-public-root body.gg-public {
+  background: var(--gg-paper) !important;
+  color: var(--gg-ink) !important;
+}
+
+body.gg-public .gg-main {
+  display: block;
+  flex: 1 0 auto;
+}
+
+body.gg-public .gg-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 0;
+}
+
+body.gg-public .gg-footer {
+  margin-top: auto;
+}
+
+body.gg-public .gg-quotes .tradingview-widget-container {
+  position: relative;
+  min-height: 28rem;
+}
+
+body.gg-public .gg-quotes iframe {
+  max-width: 100%;
+}
+
+/* Prose links — never override button-styled anchors (was hiding CTA label text). */
+body.gg-public .gg-prose a:not(.gg-btn):not(.gg-btn-solid):not(.gg-btn-ghost):not(.gg-btn-outline),
+body.gg-public .gg-panel a:not(.gg-btn):not(.gg-btn-solid):not(.gg-btn-ghost):not(.gg-btn-outline),
+body.gg-public .gg-contact a:not(.gg-btn):not(.gg-btn-solid):not(.gg-btn-ghost):not(.gg-btn-outline) {
+  color: var(--gg-accent);
+}
+
+body.gg-public .gg-prose a:not(.gg-btn):not(.gg-btn-solid):not(.gg-btn-ghost):not(.gg-btn-outline):hover,
+body.gg-public .gg-panel a:not(.gg-btn):not(.gg-btn-solid):not(.gg-btn-ghost):not(.gg-btn-outline):hover {
+  text-decoration: underline;
+}
+
+body.gg-public a.gg-btn,
+body.gg-public a.gg-btn-solid {
+  background: var(--gg-accent) !important;
+  border: 1px solid var(--gg-accent) !important;
+  color: var(--gg-on-accent) !important;
+  text-decoration: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+body.gg-public a.gg-btn:hover,
+body.gg-public a.gg-btn-solid:hover {
+  background: var(--gg-accent-hover) !important;
+  border-color: var(--gg-accent-hover) !important;
+  color: var(--gg-on-accent) !important;
+}
+
+/* Ghost on light sections (service pages, prose CTAs). */
+body.gg-public .gg-prose a.gg-btn-ghost,
+body.gg-public .gg-page-hero ~ * a.gg-btn-ghost,
+body.gg-public .gg-section--inner a.gg-btn-ghost,
+body.gg-public a.gg-btn-outline {
+  background: transparent !important;
+  border: 1px solid var(--gg-accent) !important;
+  color: var(--gg-accent) !important;
+  text-decoration: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+body.gg-public .gg-prose a.gg-btn-ghost:hover,
+body.gg-public .gg-page-hero ~ * a.gg-btn-ghost:hover,
+body.gg-public .gg-section--inner a.gg-btn-ghost:hover,
+body.gg-public a.gg-btn-outline:hover {
+  background: var(--gg-paper-alt) !important;
+  color: var(--gg-accent-hover) !important;
+  border-color: var(--gg-accent-hover) !important;
+}
+
+/* Ghost on dark hero / featured plan only. */
+body.gg-public .gg-hero a.gg-btn-ghost,
+body.gg-public .gg-plan-tier--featured a.gg-btn-ghost {
+  border: 1px solid rgba(250, 249, 247, 0.55) !important;
+  color: var(--gg-paper) !important;
+  background: transparent !important;
+}
+
+body.gg-public .gg-hero a.gg-btn-ghost:hover,
+body.gg-public .gg-plan-tier--featured a.gg-btn-ghost:hover {
+  background: rgba(250, 249, 247, 0.08) !important;
+  color: var(--gg-paper) !important;
+}
+
+body.gg-public .gg-nav > a:not(.gg-nav-cta) {
+  color: var(--gg-ink-soft);
+  text-decoration: none;
+}
+
+body.gg-public .gg-nav > a:not(.gg-nav-cta):hover {
+  color: var(--gg-accent);
+}
+
+body.gg-public .gg-prose-cta {
+  margin-top: 1.75rem;
+  padding-top: 0.25rem;
+}
+
+body.gg-public .gg-prose-cta .gg-btn,
+body.gg-public .gg-prose-cta .gg-btn-solid {
+  min-width: 12rem;
+  box-shadow: 0 2px 8px rgba(55, 48, 163, 0.22);
+}
+
+body.gg-public .gg-prose-cta-hint {
+  margin: 0.75rem 0 0;
+  max-width: 36rem;
+  color: var(--gg-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+body.gg-public .gg-section > .gg-wrap.gg-faq,
+body.gg-public .gg-section > .gg-wrap.gg-news,
+body.gg-public .gg-section > .gg-wrap.gg-prose,
+body.gg-public .gg-section > .gg-wrap.gg-split,
+body.gg-public .gg-section > .gg-wrap.gg-contact {
+  width: 100%;
+}
+
+body.gg-public .gg-footer ~ .tradingview-widget-container,
+body.gg-public .gg-shell ~ .tradingview-widget-container {
+  display: none !important;
+}
+
+body.gg-public .gg-trust-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding: 1.25rem 1.35rem;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-rule);
+  border-radius: var(--gg-radius);
+}
+
+body.gg-public .gg-trust-bar-item strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--gg-serif);
+  font-size: 1.05rem;
+  color: var(--gg-ink);
+}
+
+body.gg-public .gg-trust-bar-item span {
+  display: block;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--gg-muted);
+}
+
+body.gg-public .gg-plans-rail .gg-plan-tier {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+body.gg-public .gg-plans-rail .gg-btn-solid {
+  margin-top: auto;
+  align-self: flex-start;
+}

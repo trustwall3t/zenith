@@ -1,0 +1,139 @@
+{
+    "testimonials": [
+        {
+            "id": 18,
+            "ref_key": "zW5cF9",
+            "name": "Fatima Al-Rashid",
+            "position": "Worth the due diligence",
+            "what_is_said": "I researched Zenith Growth for weeks before funding. Live chat answered regulatory questions honestly. Six months in, performance aligns with what was described at signup.",
+            "picture": "testimonials/15-fatima-alrashid.jpg",
+            "reviewed_at": "2015-08-12"
+        },
+        {
+            "id": 17,
+            "ref_key": "tH8rL1",
+            "name": "Michael O'Brien",
+            "position": "Better than my old CFD broker",
+            "what_is_said": "I switched from high-leverage trading to structured growth plans here. Less stress and clearer expectations. Support helped migrate documents from my previous provider.",
+            "picture": "testimonials/14-michael-obrien.jpg",
+            "reviewed_at": "2016-03-27"
+        },
+        {
+            "id": 16,
+            "ref_key": "gP2mQ7",
+            "name": "Isabella Rossi",
+            "position": "Account security matters",
+            "what_is_said": "I enabled 2FA and withdrawal whitelist immediately. Login notifications give me peace of mind. Balance and transaction history export cleanly for my records.",
+            "picture": "testimonials/13-isabella-rossi.jpg",
+            "reviewed_at": "2017-11-19"
+        },
+        {
+            "id": 15,
+            "ref_key": "fN6jV4",
+            "name": "Kenji Watanabe",
+            "position": "Reliable payout schedule",
+            "what_is_said": "I chose a plan with monthly returns and payments arrive on schedule. When a holiday shifted timing, they notified users in advance. Trust built over six months of use.",
+            "picture": "testimonials/12-kenji-watanabe.jpg",
+            "reviewed_at": "2018-06-04"
+        },
+        {
+            "id": 14,
+            "ref_key": "dK3hS8",
+            "name": "Chloe Martin",
+            "position": "Learning while earning",
+            "what_is_said": "Educational emails helped me understand risk tiers. I started conservative and moved up as I got comfortable. The portfolio summary chart is genuinely useful.",
+            "picture": "testimonials/11-chloe-martin.jpg",
+            "reviewed_at": "2019-02-22"
+        },
+        {
+            "id": 13,
+            "ref_key": "bL7wP2",
+            "name": "Pierre Dubois",
+            "position": "Solid for European investors",
+            "what_is_said": "Euro deposits and EUR plan denominations suit my needs. Customer chat responds in English and French. I have referred one colleague who also opened an account.",
+            "picture": "testimonials/10-pierre-dubois.jpg",
+            "reviewed_at": "2020-09-30"
+        },
+        {
+            "id": 12,
+            "ref_key": "rX1qT5",
+            "name": "Amira Hassan",
+            "position": "Transparent fee structure",
+            "what_is_said": "Hidden fees ruined my experience elsewhere. Here, management charges are listed on each product page. My net returns have been consistent with the projected ranges.",
+            "picture": "testimonials/09-amira-hassan.jpg",
+            "reviewed_at": "2021-04-16"
+        },
+        {
+            "id": 11,
+            "ref_key": "vC9nM3",
+            "name": "David Cohen",
+            "position": "Professional onboarding",
+            "what_is_said": "Registration took minutes but verification was thorough, which I prefer. The team walked me through my first allocation on a short call. No pressure to deposit more than I planned.",
+            "picture": "testimonials/08-david-cohen.jpg",
+            "reviewed_at": "2022-07-08"
+        },
+        {
+            "id": 10,
+            "ref_key": "sG4pZ6",
+            "name": "Yuki Tanaka",
+            "position": "Mobile access works well",
+            "what_is_said": "I travel often and manage everything from my phone. Deposits via crypto and bank transfer both worked for me. Two-factor authentication was easy to enable.",
+            "picture": "testimonials/07-yuki-tanaka.jpg",
+            "reviewed_at": "2023-01-25"
+        },
+        {
+            "id": 9,
+            "ref_key": "wY2bH7",
+            "name": "Lars Andersson",
+            "position": "Good fit for long-term goals",
+            "what_is_said": "I am investing for retirement over fifteen years. Fixed-term plans are clearly labelled with maturity dates. Reinvesting profits is one click from the wallet page.",
+            "picture": "testimonials/06-lars-andersson.jpg",
+            "reviewed_at": "2024-05-11"
+        },
+        {
+            "id": 8,
+            "ref_key": "nF5dK8",
+            "name": "Maria Santos",
+            "position": "Finally a platform I trust",
+            "what_is_said": "I compared several firms before choosing Zenith Growth. Monthly statements match what I see online. I appreciate alerts when a plan renews or a payout posts.",
+            "picture": "testimonials/05-maria-santos.jpg",
+            "reviewed_at": "2015-12-01"
+        },
+        {
+            "id": 7,
+            "ref_key": "hJ6cR1",
+            "name": "Raj Patel",
+            "position": "Support answered the hard questions",
+            "what_is_said": "Moving funds internationally made me nervous. KYC was smooth and support clarified tax paperwork for my accountant. The platform UI is cleaner than my previous broker.",
+            "picture": "testimonials/04-raj-patel.jpg",
+            "reviewed_at": "2016-09-18"
+        },
+        {
+            "id": 6,
+            "ref_key": "mT3vW9",
+            "name": "Sophie Laurent",
+            "position": "Copy trading that made sense",
+            "what_is_said": "I use the copy-trading feature with modest amounts. I can see leader history before allocating capital. Results vary by month, which they explain upfront.",
+            "picture": "testimonials/03-sophie-laurent.jpg",
+            "reviewed_at": "2018-04-03"
+        },
+        {
+            "id": 5,
+            "ref_key": "pQ8xL4",
+            "name": "James Okonkwo",
+            "position": "Steady returns, no hype",
+            "what_is_said": "As a small business owner I wanted passive exposure without day-trading. Plan options are transparent and my account manager followed up after onboarding. It feels professional, not pushy.",
+            "picture": "testimonials/02-james-okonkwo.jpg",
+            "reviewed_at": "2019-10-20"
+        },
+        {
+            "id": 4,
+            "ref_key": "kR7mN2",
+            "name": "Elena Müller",
+            "position": "Clear reporting from day one",
+            "what_is_said": "I joined Zenith Growth to diversify beyond local ETFs. The dashboard explains fees and returns without jargon. Withdrawals to my bank took three business days after my first request.",
+            "picture": "testimonials/01-elena-mueller.jpg",
+            "reviewed_at": "2026-09-28"
+        }
+    ]
+}

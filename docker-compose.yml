@@ -1,0 +1,22 @@
+# Dedicated Postgres for apextradezone-zenith only (not apextradezone Supabase).
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: apextradezone-zenith-pg
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: zenith
+      POSTGRES_PASSWORD: zenith_local_dev
+      POSTGRES_DB: zenith
+    volumes:
+      - zenith_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zenith -d zenith"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  zenith_pg_data:

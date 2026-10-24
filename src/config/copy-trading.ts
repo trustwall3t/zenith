@@ -1,0 +1,60 @@
+/** Port of zenithgrowth/config/copy_trading.php */
+export const COPY_TRADING = {
+  /** Target share of settled trades that close positive (~98%). */
+  targetWinRate: 0.98,
+  /** Profit as a fraction of stake on winning trades. */
+  winProfitPctMin: 0.03,
+  winProfitPctMax: 0.18,
+  /** Loss as a fraction of stake on losing trades (capped at full stake). */
+  lossPctMin: 0.08,
+  lossPctMax: 0.45,
+  minDurationSeconds: 900,
+  durations: [900, 3600, 14400, 86400] as const,
+  selfDurations: {
+    60: "1m",
+    300: "5m",
+    900: "15m",
+    3600: "1h",
+    14400: "4h",
+    86400: "1d",
+  } as Record<number, string>,
+  assets: [
+    { symbol: "BTC", name: "Bitcoin", market: "CRYPTO", externalId: "bitcoin" },
+    { symbol: "ETH", name: "Ethereum", market: "CRYPTO", externalId: "ethereum" },
+    { symbol: "SOL", name: "Solana", market: "CRYPTO", externalId: "solana" },
+    { symbol: "BNB", name: "BNB", market: "CRYPTO", externalId: "binancecoin" },
+    { symbol: "XRP", name: "XRP", market: "CRYPTO", externalId: "ripple" },
+    { symbol: "ADA", name: "Cardano", market: "CRYPTO", externalId: "cardano" },
+    { symbol: "DOGE", name: "Dogecoin", market: "CRYPTO", externalId: "dogecoin" },
+    { symbol: "AVAX", name: "Avalanche", market: "CRYPTO", externalId: "avalanche-2" },
+    { symbol: "AAPL", name: "Apple", market: "STOCK", externalId: "AAPL" },
+    { symbol: "MSFT", name: "Microsoft", market: "STOCK", externalId: "MSFT" },
+    { symbol: "NVDA", name: "NVIDIA", market: "STOCK", externalId: "NVDA" },
+    { symbol: "GOOGL", name: "Alphabet", market: "STOCK", externalId: "GOOGL" },
+    { symbol: "AMZN", name: "Amazon", market: "STOCK", externalId: "AMZN" },
+    { symbol: "META", name: "Meta", market: "STOCK", externalId: "META" },
+    { symbol: "TSLA", name: "Tesla", market: "STOCK", externalId: "TSLA" },
+    { symbol: "JPM", name: "JPMorgan Chase", market: "STOCK", externalId: "JPM" },
+    { symbol: "V", name: "Visa", market: "STOCK", externalId: "V" },
+  ],
+  traders: [
+    {
+      name: "Trader_Sci",
+      description: "Quant-focused swing trader on tech and growth stocks.",
+      strategy: "Momentum + mean reversion",
+      market: "STOCK",
+      winRate: 98,
+      followers: 12500,
+      totalTrades: 8643,
+    },
+    {
+      name: "Crypto_Viper",
+      description: "Crypto scalper on major pairs.",
+      strategy: "Scalping",
+      market: "CRYPTO",
+      winRate: 98,
+      followers: 18200,
+      totalTrades: 12400,
+    },
+  ],
+} as const;

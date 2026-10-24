@@ -1,0 +1,43 @@
+import type { LucideIcon } from "lucide-react";
+import {
+  Activity,
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  ChartCandlestick,
+  ClipboardList,
+  Copy,
+  Gift,
+  LayoutDashboard,
+  LineChart,
+  Radio,
+  ReceiptText,
+  ScanSearch,
+  Settings2,
+  ShieldCheck,
+  TrendingUp,
+  UserCog,
+  Users,
+} from "lucide-react";
+
+/** Shared Lucide icons for dashboard page headers and nav. */
+export const PageIcons = {
+  dashboard: LayoutDashboard,
+  deposit: ArrowDownToLine,
+  withdraw: ArrowUpFromLine,
+  plans: TrendingUp,
+  copy: Copy,
+  copyHistory: ClipboardList,
+  liveTrading: Activity,
+  transactions: ReceiptText,
+  tradingHistory: ChartCandlestick,
+  tradeScanner: ScanSearch,
+  tradeSignals: Radio,
+  invite: Gift,
+  kyc: ShieldCheck,
+  settings: Settings2,
+  users: Users,
+  investmentPlans: TrendingUp,
+  copyTraders: UserCog,
+  adminTrade: LineChart,
+  adminLive: Activity,
+} as const satisfies Record<string, LucideIcon>;

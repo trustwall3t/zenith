@@ -1,0 +1,670 @@
+/* Zenith Growth auth — same indigo tokens & typography as public/main/css/home.css */
+
+:root {
+  --gg-primary: #3730a3;
+  --gg-deep: #2a2480;
+  --gg-soft: #eef0fb;
+  --gg-highlight: #6366f1;
+  --gg-accent: #3730a3;
+  --gg-accent-hover: #2a2480;
+  --gg-ink: #1a2332;
+  --gg-ink-soft: #3d4a5c;
+  --gg-muted: #5c6574;
+  --gg-paper: #faf9f7;
+  --gg-paper-alt: #eef0fb;
+  --gg-rule: #d4d8e8;
+  --gg-surface: #ffffff;
+  --gg-on-accent: #f7f7ff;
+  --gg-header: 4.25rem;
+  --gg-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --gg-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gg-radius: 3px;
+  --gg-danger: #9b2c2c;
+  --gg-danger-bg: #fdecea;
+  --gg-danger-border: #f5c2c0;
+}
+
+html.gg-auth {
+  --gg-bg: var(--gg-paper);
+  --gg-fg: var(--gg-ink);
+  --gg-card: var(--gg-surface);
+  --gg-border: var(--gg-rule);
+  --gg-brand: var(--gg-accent);
+  --gg-brand-fg: var(--gg-on-accent);
+  --gg-brand-muted: var(--gg-accent-hover);
+  --gg-brand-soft: var(--gg-soft);
+  --gg-panel: var(--gg-deep);
+  --gg-panel-fg: var(--gg-on-accent);
+  color-scheme: light;
+}
+
+html.gg-auth,
+html.gg-auth body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--gg-bg);
+  color: var(--gg-fg);
+  font-family: var(--gg-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+html.gg-auth *,
+html.gg-auth *::before,
+html.gg-auth *::after {
+  box-sizing: border-box;
+}
+
+html.gg-auth img {
+  max-width: 100%;
+  height: auto;
+}
+
+html.gg-auth body.gg-auth-body {
+  top: 0 !important;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.skiptranslate iframe,
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+/* —— Minimal top bar (matches public header tone) —— */
+
+.gg-auth-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  min-height: var(--gg-header);
+  display: flex;
+  align-items: center;
+  background: var(--gg-paper);
+  border-bottom: 1px solid var(--gg-rule);
+  flex-shrink: 0;
+}
+
+.gg-auth-header-inner {
+  width: min(1140px, calc(100% - 2.25rem));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.gg-auth-header .gg-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--gg-ink);
+  font-family: var(--gg-serif);
+  font-weight: 620;
+  font-size: 1.125rem;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.gg-auth-header .gg-brand:hover {
+  color: var(--gg-accent-hover);
+}
+
+.gg-auth-header .gg-brand-logo {
+  display: block;
+  width: auto;
+  height: 2.75rem;
+  max-height: 44px;
+  object-fit: contain;
+  border-radius: var(--gg-radius);
+}
+
+.gg-auth-home-link {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--gg-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.gg-auth-home-link:hover {
+  color: var(--gg-accent-hover);
+}
+
+.gg-auth-home-link:focus-visible,
+.gg-auth-header .gg-brand:focus-visible {
+  outline: 2px solid var(--gg-highlight);
+  outline-offset: 2px;
+}
+
+/* —— Split shell —— */
+
+.gg-auth-shell {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  background: var(--gg-bg);
+}
+
+.gg-auth-aside {
+  display: none;
+}
+
+.gg-auth-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--gg-bg);
+}
+
+.gg-auth-mobile-brand {
+  display: none;
+}
+
+.gg-auth-tools {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.65rem 1rem 0;
+}
+
+#google_translate_element,
+#google_translate_element select {
+  max-width: 11rem;
+  font-size: 12px;
+  color: var(--gg-muted);
+}
+
+.gg-auth-stage {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.25rem 1rem 2rem;
+  min-width: 0;
+}
+
+.gg-auth-card {
+  width: 100%;
+  max-width: 28.5rem;
+  background: var(--gg-card);
+  color: var(--gg-fg);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-radius);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--gg-deep) 8%, transparent);
+  padding: 1.35rem 1.1rem 1.2rem;
+}
+
+.gg-auth-card-wide {
+  max-width: 46rem;
+}
+
+.gg-kicker {
+  margin: 0 0 0.35rem;
+  color: var(--gg-highlight);
+  font-family: var(--gg-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.gg-title {
+  margin: 0 0 0.4rem;
+  font-family: var(--gg-serif);
+  font-size: 1.75rem;
+  line-height: 1.15;
+  font-weight: 620;
+  letter-spacing: -0.02em;
+  color: var(--gg-ink);
+}
+
+.gg-lede {
+  margin: 0 0 1.15rem;
+  color: var(--gg-muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.gg-form {
+  margin: 0;
+}
+
+.gg-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 1rem;
+}
+
+.gg-field {
+  margin-bottom: 0.95rem;
+  min-width: 0;
+}
+
+.gg-field label,
+.gg-check label {
+  display: inline;
+  color: var(--gg-ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.gg-field > label {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.gg-req {
+  color: var(--gg-danger);
+}
+
+.gg-input,
+.gg-select,
+html.gg-auth .form-control {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-radius);
+  background: #fff;
+  color: var(--gg-fg);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  box-shadow: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gg-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%231a2332' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  padding-right: 2.3rem;
+}
+
+.gg-input::placeholder,
+html.gg-auth .form-control::placeholder {
+  color: #8a8a8a;
+}
+
+.gg-input:focus,
+.gg-select:focus,
+html.gg-auth .form-control:focus {
+  outline: none;
+  border-color: var(--gg-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gg-highlight) 35%, transparent);
+  background: #fff;
+  color: var(--gg-fg);
+}
+
+.gg-input:disabled,
+.gg-input[readonly] {
+  background: var(--gg-soft);
+  color: var(--gg-fg);
+}
+
+.gg-error,
+.gg-error-list,
+html.gg-auth .help-block,
+html.gg-auth small.text-danger,
+html.gg-auth .text-danger {
+  color: var(--gg-danger) !important;
+}
+
+.gg-error,
+html.gg-auth .help-block,
+html.gg-auth small.text-danger {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.gg-error-list {
+  margin: 0 0 0.9rem;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+}
+
+.gg-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.95rem;
+}
+
+.gg-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
+  min-width: 0;
+}
+
+.gg-check input {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.15rem;
+  flex: 0 0 auto;
+  accent-color: var(--gg-accent);
+}
+
+.gg-check input:focus-visible {
+  outline: 2px solid var(--gg-highlight);
+  outline-offset: 2px;
+}
+
+.gg-check label,
+.gg-check span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gg-fg);
+  line-height: 1.4;
+}
+
+.gg-link,
+html.gg-auth a.gg-link {
+  color: var(--gg-accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.gg-link:hover,
+html.gg-auth a.gg-link:hover {
+  color: var(--gg-accent-hover);
+}
+
+.gg-link:focus-visible,
+.gg-auth-brand:focus-visible {
+  outline: 2px solid var(--gg-highlight);
+  outline-offset: 3px;
+  border-radius: var(--gg-radius);
+}
+
+.gg-btn,
+html.gg-auth button.gg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.75rem;
+  margin-top: 0.25rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--gg-accent);
+  border-radius: var(--gg-radius);
+  background: var(--gg-accent);
+  color: var(--gg-on-accent);
+  font-family: var(--gg-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.gg-btn:hover,
+html.gg-auth button.gg-btn:hover {
+  background: var(--gg-accent-hover);
+  border-color: var(--gg-accent-hover);
+  color: var(--gg-on-accent);
+}
+
+.gg-btn:focus-visible {
+  outline: 2px solid var(--gg-highlight);
+  outline-offset: 3px;
+}
+
+.gg-btn-ghost {
+  margin-top: 0.7rem;
+  background: transparent;
+  color: var(--gg-accent);
+}
+
+.gg-btn-ghost:hover {
+  background: var(--gg-soft);
+  color: var(--gg-accent-hover);
+  border-color: var(--gg-accent);
+}
+
+.gg-switch {
+  margin: 1rem 0 0;
+  text-align: center;
+  color: var(--gg-muted);
+  font-size: 0.9rem;
+}
+
+.gg-fine {
+  display: block;
+  margin-top: 1.1rem;
+  text-align: center;
+  color: var(--gg-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.gg-or {
+  margin: 0.35rem 0 0.2rem;
+  text-align: center;
+  color: var(--gg-muted);
+  font-size: 0.85rem;
+}
+
+.gg-alert {
+  position: relative;
+  margin: 0 0 0.9rem;
+  padding: 0.8rem 2rem 0.8rem 0.9rem;
+  border-radius: var(--gg-radius);
+  border: 1px solid transparent;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.gg-alert-danger,
+html.gg-auth .alert-danger {
+  background: var(--gg-danger-bg);
+  color: var(--gg-danger);
+  border-color: var(--gg-danger-border);
+}
+
+.gg-alert-success,
+html.gg-auth .alert-success {
+  background: var(--gg-soft);
+  color: var(--gg-deep);
+  border-color: var(--gg-rule);
+}
+
+.gg-alert .close,
+html.gg-auth .alert .close {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.6rem;
+  color: inherit;
+  opacity: 0.7;
+  text-shadow: none;
+  background: transparent;
+  border: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gg-alert ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+html.gg-auth .login-with-google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-height: 2.75rem;
+  margin-top: 0.35rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--gg-radius);
+  border: 1px solid var(--gg-border);
+  background: #fff;
+  color: var(--gg-fg);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+html.gg-auth .login-with-google-btn:hover {
+  border-color: var(--gg-accent);
+  color: var(--gg-accent);
+}
+
+html.gg-auth .login-with-google-btn:focus-visible {
+  outline: 2px solid var(--gg-highlight);
+  outline-offset: 3px;
+}
+
+@media (min-width: 720px) {
+  .gg-auth-card {
+    padding: 1.85rem 1.7rem 1.5rem;
+  }
+
+  .gg-auth-card-wide .gg-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .gg-span-2 {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 960px) {
+  .gg-auth-aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: min(42vw, 34rem);
+    flex: 0 0 min(42vw, 34rem);
+    min-height: 100%;
+    padding: 2.25rem 2.4rem;
+    color: var(--gg-panel-fg);
+    background-color: var(--gg-panel);
+    background-image:
+      radial-gradient(900px 480px at -10% 110%, color-mix(in srgb, var(--gg-highlight) 38%, transparent), transparent 55%),
+      radial-gradient(700px 380px at 120% -20%, color-mix(in srgb, var(--gg-on-accent) 14%, transparent), transparent 50%);
+    overflow: auto;
+  }
+
+  .gg-auth-brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    background: color-mix(in srgb, var(--gg-on-accent) 12%, transparent);
+    border-radius: var(--gg-radius);
+    padding: 0.65rem 0.85rem;
+    line-height: 0;
+    text-decoration: none;
+  }
+
+  .gg-auth-brand img {
+    height: 52px;
+    width: auto;
+    max-width: 190px;
+    object-fit: contain;
+  }
+
+  .gg-auth-aside-copy {
+    max-width: 22rem;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .gg-auth-aside-kicker {
+    margin: 0 0 0.55rem;
+    color: color-mix(in srgb, var(--gg-panel-fg) 85%, transparent);
+    font-family: var(--gg-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .gg-auth-aside-title {
+    margin: 0 0 0.7rem;
+    font-family: var(--gg-serif);
+    font-size: 2.15rem;
+    line-height: 1.15;
+    font-weight: 620;
+    letter-spacing: -0.03em;
+    color: var(--gg-panel-fg);
+  }
+
+  .gg-auth-aside-line {
+    margin: 0;
+    color: color-mix(in srgb, var(--gg-panel-fg) 82%, transparent);
+    font-size: 1.02rem;
+    line-height: 1.55;
+  }
+
+  .gg-auth-stage {
+    align-items: center;
+    padding: 2.5rem 2rem;
+  }
+}
+
+html.gg-auth .card,
+html.gg-auth .bg-black {
+  background: var(--gg-card) !important;
+  color: var(--gg-fg) !important;
+}
+
+html.gg-auth .text-white:not(.gg-btn):not(.btn) {
+  color: var(--gg-fg) !important;
+}
+
+html.gg-auth .btn,
+html.gg-auth .bg-green-700,
+html.gg-auth .btn-success,
+html.gg-auth .btn-green-700 {
+  background: var(--gg-accent) !important;
+  border-color: var(--gg-accent) !important;
+  color: var(--gg-on-accent) !important;
+  border-radius: var(--gg-radius);
+}
+
+html.gg-auth .btn:hover,
+html.gg-auth .bg-green-700:hover,
+html.gg-auth .btn-success:hover {
+  background: var(--gg-accent-hover) !important;
+  border-color: var(--gg-accent-hover) !important;
+  color: var(--gg-on-accent) !important;
+}
+
+html.gg-auth .btn:focus,
+html.gg-auth .btn:focus-visible {
+  outline: 2px solid var(--gg-highlight);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+html.gg-auth .gg-auth-card .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+html.gg-auth .gg-auth-card [class*="col-"] {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: 100%;
+}
