@@ -2,7 +2,9 @@ import DynamicStyles from '@/components/DynamicStyles';
 import { PublicDesktopLockLifecycle } from '@/components/public/PublicDesktopLockLifecycle';
 import SmartsuppScript from '@/components/SmartsuppScript';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { DesktopViewport } from '@/components/public/DesktopViewport';
 import { GG_LAYOUT_WIDTH } from '@/lib/public/gg-layout-width';
+import { ggViewportBootstrapScript } from '@/lib/public/gg-viewport-bootstrap';
 import { isPublicMarketingRoute } from '@/lib/public/marketing-routes';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
@@ -61,7 +63,18 @@ export default async function RootLayout({
 
 	return (
 		<html lang='en' className={htmlClass} style={htmlStyle} suppressHydrationWarning>
+			<head>
+				{isMarketing ? (
+					<script
+						id='gg-viewport-bootstrap'
+						dangerouslySetInnerHTML={{
+							__html: ggViewportBootstrapScript(GG_LAYOUT_WIDTH),
+						}}
+					/>
+				) : null}
+			</head>
 			<body className={bodyClass} suppressHydrationWarning>
+				{isMarketing ? <DesktopViewport /> : null}
 				<ThemeProvider>
 					<PublicDesktopLockLifecycle />
 					<DynamicStyles />

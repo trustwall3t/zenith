@@ -1,4 +1,3 @@
-import { DesktopViewport } from "@/components/public/DesktopViewport";
 import { GoogleTranslateBar } from "@/components/public/GoogleTranslateBar";
 import { MarketingHtmlClass } from "@/components/public/MarketingHtmlClass";
 import { MarketingThemeGuard } from "@/components/public/MarketingThemeGuard";
@@ -67,7 +66,6 @@ export default async function MarketingLayout({ children }: { children: ReactNod
       </noscript>
       <MarketingThemeGuard>
         <PublicBootGate />
-        <DesktopViewport />
         <MarketingHtmlClass />
         {site.googleTranslate ? <GoogleTranslateBar /> : null}
         {children}

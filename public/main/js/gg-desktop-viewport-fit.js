@@ -29,14 +29,19 @@
     var layoutWidth = parseInt(meta.getAttribute('data-layout-width'), 10) || 1200;
 
     function readDeviceWidth() {
-        if (window.screen && window.screen.width > 0) {
-            return window.screen.width;
-        }
         if (window.visualViewport && window.visualViewport.width > 0) {
             return window.visualViewport.width;
         }
+        if (window.innerWidth > 0) {
+            return window.innerWidth;
+        }
+        if (window.screen && window.screen.width > 0) {
+            var sw = window.screen.width;
+            var sh = window.screen.height || sw;
+            return Math.min(sw, sh);
+        }
 
-        return window.innerWidth || layoutWidth;
+        return layoutWidth;
     }
 
     function computeScale(deviceWidth) {
@@ -84,6 +89,11 @@
         if (!meta.isConnected || !root.classList.contains('gg-public-root')) {
             return;
         }
+        document.querySelectorAll('meta[name="viewport"]').forEach(function (m) {
+            if (!m.getAttribute('data-gg-fit')) {
+                m.remove();
+            }
+        });
         var scale = computeScale(readDeviceWidth());
         var next = viewportContent(scale);
         if (meta.content !== next) {
@@ -95,13 +105,17 @@
         markReady();
     }
 
+    apply();
+
     if (document.readyState === 'loading') {
         track(document, 'DOMContentLoaded', function () {
+            apply();
             requestAnimationFrame(function () {
                 requestAnimationFrame(reveal);
             });
         }, { once: true });
     } else {
+        apply();
         requestAnimationFrame(function () {
             requestAnimationFrame(reveal);
         });
