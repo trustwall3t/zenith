@@ -5,19 +5,11 @@ import { PublicBootGate } from "@/components/public/PublicBootGate";
 import { getPublicSite } from "@/lib/public/home-payload";
 import { SITE_LOGO_URL } from "@/lib/public/site-logo";
 import { GG_LAYOUT_WIDTH } from "@/lib/public/gg-layout-width";
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import "../public-marketing.css";
 import type { ReactNode } from "react";
 
-/** Base viewport; `gg-desktop-viewport-fit.js` adjusts initial-scale per device. */
-export const viewport: Viewport = {
-	width: GG_LAYOUT_WIDTH,
-	initialScale: 1,
-	minimumScale: 0.25,
-	maximumScale: 5,
-	userScalable: true,
-	viewportFit: "cover",
-};
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getPublicSite();

@@ -5,6 +5,10 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { DesktopViewport } from '@/components/public/DesktopViewport';
 import { GG_LAYOUT_WIDTH } from '@/lib/public/gg-layout-width';
 import { ggViewportBootstrapScript } from '@/lib/public/gg-viewport-bootstrap';
+import {
+	defaultAppViewport,
+	resolveMarketingViewport,
+} from '@/lib/public/gg-viewport-server';
 import { isPublicMarketingRoute } from '@/lib/public/marketing-routes';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
@@ -22,12 +26,14 @@ const geistMono = Geist_Mono({
 	variable: '--font-geist-mono',
 });
 
-/** Auth, dashboard, admin — normal responsive viewport (marketing overrides in its layout). */
-export const viewport: Viewport = {
-	width: 'device-width',
-	initialScale: 1,
-	maximumScale: 5,
-};
+export async function generateViewport(): Promise<Viewport> {
+	const h = await headers();
+	const pathname = h.get('x-pathname') ?? '';
+	if (isPublicMarketingRoute(pathname)) {
+		return resolveMarketingViewport(h);
+	}
+	return defaultAppViewport;
+}
 
 export const metadata: Metadata = {
 	title: {
