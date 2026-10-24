@@ -8,7 +8,7 @@ function authorized(req: Request): boolean {
   return req.headers.get("authorization") === `Bearer ${secret}`;
 }
 
-/** Vercel cron: copy settlement + automatic ROI (Zenith schedule parity). */
+/** Vercel cron (daily): copy settlement + automatic ROI with interval catch-up. */
 export async function GET(req: Request) {
   if (!authorized(req)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });

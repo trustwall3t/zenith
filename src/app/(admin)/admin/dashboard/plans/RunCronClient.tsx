@@ -17,9 +17,11 @@ export function RunCronClient() {
         <p className="font-medium text-foreground">Automatic ROI & copy settlement</p>
         <p className="mt-0.5 text-xs">
           Production: Vercel cron hits{" "}
-          <code className="rounded bg-muted px-1">/api/cron/run-all</code> every
-          minute when deployed with <code className="rounded bg-muted px-1">CRON_SECRET</code>.
-          Local dev does not run this unless you trigger it.
+          <code className="rounded bg-muted px-1">/api/cron/run-all</code> once
+          daily (00:00 UTC) when deployed with{" "}
+          <code className="rounded bg-muted px-1">CRON_SECRET</code>. Use Run
+          jobs now for immediate ROI settlement or copy trade closure locally or
+          between cron runs.
         </p>
         {lastResult ? (
           <p className="mt-2 text-xs font-mono text-brand">{lastResult}</p>

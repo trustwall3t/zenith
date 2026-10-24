@@ -48,7 +48,7 @@ Re-running the script is safe: users match by `zenithId` or email; transactions 
 
 ## Production cron (Vercel)
 
-`vercel.json` hits **`GET /api/cron/run-all`** every minute.
+`vercel.json` hits **`GET /api/cron/run-all`** once daily at **00:00 UTC** (`0 0 * * *`) — suited to Vercel Hobby (one cron job). ROI logic catches up missed payout intervals on each run.
 
 - Set **`CRON_SECRET`** in Vercel env. Vercel sends `Authorization: Bearer <CRON_SECRET>` automatically.
 - Locally, without `CRON_SECRET`, dev mode allows the route for testing:

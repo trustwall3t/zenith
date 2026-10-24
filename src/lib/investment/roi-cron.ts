@@ -13,6 +13,9 @@ export type RoiCronResult = {
   weekendSkipped: number;
 };
 
+/** Cap missed ROI payouts applied in one cron run (daily cron catch-up). */
+const MAX_ROI_CATCHUP_PER_PLAN = 500;
+
 /**
  * Automatic ROI — port of Zenith `AutoTaskController::automaticRoi`.
  * Runs when global `SiteSettings.tradeMode` is on and user `tradeMode` is on.
@@ -50,8 +53,7 @@ export async function runAutomaticRoi(): Promise<RoiCronResult> {
       continue;
     }
 
-    const lastGrowth = row.lastGrowth ?? row.activatedAt ?? row.createdAt;
-    const nextDrop = nextGrowthAfter(lastGrowth, dplan.incrementInterval);
+    let lastGrowth = row.lastGrowth ?? row.activatedAt ?? row.createdAt;
     const expireDate = row.expireDate;
     const increment = computeIncrement(
       row.amount,
@@ -63,33 +65,45 @@ export async function runAutomaticRoi(): Promise<RoiCronResult> {
     const isExpired = expireDate ? now > expireDate : false;
 
     if (stillActive) {
-      const weekend = isWeekend(now);
-      if (weekend && !settings.weekendTrade) {
-        if (now >= lastGrowth) {
-          await db.userInvestmentPlan.update({
-            where: { id: row.id },
-            data: { lastGrowth: nextDrop },
-          });
-          result.weekendSkipped++;
-        }
-        continue;
-      }
+      let profitEarned = row.profitEarned;
+      let catchup = 0;
+      let walletBalance = user.walletBalance ?? 0;
+      let profitBalance = user.profitBalance ?? 0;
+      let roiTotal = user.roiTotal;
+      let creditedThisPlan = 0;
 
-      if (now >= lastGrowth) {
+      while (catchup < MAX_ROI_CATCHUP_PER_PLAN) {
+        const nextDrop = nextGrowthAfter(lastGrowth, dplan.incrementInterval);
+        if (now < nextDrop) break;
+
+        if (isWeekend(nextDrop) && !settings.weekendTrade) {
+          lastGrowth = nextDrop;
+          result.weekendSkipped++;
+          catchup++;
+          continue;
+        }
+
+        walletBalance += increment;
+        profitBalance += increment;
+        roiTotal += increment;
+        profitEarned += increment;
+        lastGrowth = nextDrop;
+        catchup++;
+
         await db.$transaction(async (tx) => {
           await tx.user.update({
             where: { id: user.id },
             data: {
-              roiTotal: user.roiTotal + increment,
-              walletBalance: (user.walletBalance ?? 0) + increment,
-              profitBalance: (user.profitBalance ?? 0) + increment,
+              roiTotal,
+              walletBalance,
+              profitBalance,
             },
           });
           await tx.transaction.create({
             data: {
               userId: user.id,
               paymentMethod: "system",
-              transactionId: `roi-${row.id}-${now.getTime()}`,
+              transactionId: `roi-${row.id}-${lastGrowth.getTime()}-${catchup}`,
               status: "success",
               transactionType: "ROI",
               postType: "profit",
@@ -102,22 +116,24 @@ export async function runAutomaticRoi(): Promise<RoiCronResult> {
           await tx.userInvestmentPlan.update({
             where: { id: row.id },
             data: {
-              lastGrowth: nextDrop,
-              profitEarned: row.profitEarned + increment,
+              lastGrowth,
+              profitEarned,
             },
           });
         });
 
-        if (user.sendRoiEmail) {
-          await sendRoiEmail({
-            to: user.email,
-            name: user.name,
-            planName: dplan.name,
-            amount: increment,
-            currency: settings.currency,
-          }).catch(() => undefined);
-        }
+        creditedThisPlan++;
         result.credited++;
+      }
+
+      if (user.sendRoiEmail && creditedThisPlan > 0) {
+        await sendRoiEmail({
+          to: user.email,
+          name: user.name,
+          planName: dplan.name,
+          amount: increment * creditedThisPlan,
+          currency: settings.currency,
+        }).catch(() => undefined);
       }
       continue;
     }

@@ -52,6 +52,6 @@ npm run db:seed-zenith
 ## After the DB exists
 
 - **Zenith MySQL import:** start `greengrowth-mysql` (zenithgrowth `docker compose`), then `npm run import:zenith-mysql`.
-- **Cron / ROI:** `curl http://localhost:3000/api/cron/run-all` (dev allows without `CRON_SECRET`).
+- **Cron / ROI:** daily on Vercel (`vercel.json` → `0 0 * * *` UTC). Local test: `curl http://localhost:3000/api/cron/run-all` (dev allows without `CRON_SECRET`).
 
 When your Supabase URLs are in `.env`, say **“db is ready”** and we can run push, seed, and import together.
