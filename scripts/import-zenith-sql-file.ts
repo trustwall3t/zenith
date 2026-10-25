@@ -59,7 +59,7 @@ async function main() {
       where: { id: "default" },
       create: {
         id: "default",
-        siteName: String(s.site_name ?? "Zenith Growth"),
+        siteName: String(s.site_name ?? "Zenith Habour"),
         currency: String(s.currency ?? "$"),
         welcomeMessage: String(s.welcome_message ?? s.site_title ?? ""),
         enableKyc: yn(s.enable_kyc),
@@ -74,7 +74,7 @@ async function main() {
         logoUrl: s.logo ? String(s.logo) : null,
       },
       update: {
-        siteName: String(s.site_name ?? "Zenith Growth"),
+        siteName: String(s.site_name ?? "Zenith Habour"),
         currency: String(s.currency ?? "$"),
         welcomeMessage: String(s.welcome_message ?? ""),
         tradeMode: yn(s.trade_mode ?? "on"),

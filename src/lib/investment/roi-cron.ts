@@ -2,7 +2,9 @@ import { db } from "@/lib/db";
 import {
   computeIncrement,
   isWeekend,
+  maxCatchupForInterval,
   nextGrowthAfter,
+  resolvePlanLastGrowth,
 } from "@/lib/investment/roi-schedule";
 import { sendRoiEmail, sendPlanClosedEmail } from "@/lib/email/zenith-notifications";
 
@@ -13,14 +15,11 @@ export type RoiCronResult = {
   weekendSkipped: number;
 };
 
-/** Cap missed ROI payouts applied in one cron run (daily cron catch-up). */
-const MAX_ROI_CATCHUP_PER_PLAN = 500;
-
 /**
  * Automatic ROI — port of Zenith `AutoTaskController::automaticRoi`.
  * Runs when global `SiteSettings.tradeMode` is on and user `tradeMode` is on.
  */
-export async function runAutomaticRoi(): Promise<RoiCronResult> {
+export async function runAutomaticRoi(userId?: string): Promise<RoiCronResult> {
   const result: RoiCronResult = {
     credited: 0,
     skipped: 0,
@@ -37,7 +36,10 @@ export async function runAutomaticRoi(): Promise<RoiCronResult> {
 
   const now = new Date();
   const activePlans = await db.userInvestmentPlan.findMany({
-    where: { status: "yes" },
+    where: {
+      status: "yes",
+      ...(userId ? { userId } : {}),
+    },
     include: { plan: true, user: true },
   });
 
@@ -53,7 +55,18 @@ export async function runAutomaticRoi(): Promise<RoiCronResult> {
       continue;
     }
 
-    let lastGrowth = row.lastGrowth ?? row.activatedAt ?? row.createdAt;
+    const planInterval = dplan.incrementInterval;
+    const maxCatchup = maxCatchupForInterval(planInterval);
+
+    let lastGrowth = resolvePlanLastGrowth(
+      {
+        lastGrowth: row.lastGrowth,
+        activatedAt: row.activatedAt,
+        createdAt: row.createdAt,
+        profitEarned: row.profitEarned,
+      },
+      planInterval,
+    );
     const expireDate = row.expireDate;
     const increment = computeIncrement(
       row.amount,
@@ -72,13 +85,24 @@ export async function runAutomaticRoi(): Promise<RoiCronResult> {
       let roiTotal = user.roiTotal;
       let creditedThisPlan = 0;
 
-      while (catchup < MAX_ROI_CATCHUP_PER_PLAN) {
-        const nextDrop = nextGrowthAfter(lastGrowth, dplan.incrementInterval);
+      while (catchup < maxCatchup) {
+        const nextDrop = nextGrowthAfter(lastGrowth, planInterval);
         if (now < nextDrop) break;
 
         if (isWeekend(nextDrop) && !settings.weekendTrade) {
           lastGrowth = nextDrop;
           result.weekendSkipped++;
+          catchup++;
+          continue;
+        }
+
+        const transactionId = `roi-${row.id}-${nextDrop.getTime()}`;
+        const alreadyPaid = await db.transaction.findFirst({
+          where: { transactionId },
+          select: { id: true },
+        });
+        if (alreadyPaid) {
+          lastGrowth = nextDrop;
           catchup++;
           continue;
         }
@@ -103,7 +127,7 @@ export async function runAutomaticRoi(): Promise<RoiCronResult> {
             data: {
               userId: user.id,
               paymentMethod: "system",
-              transactionId: `roi-${row.id}-${lastGrowth.getTime()}-${catchup}`,
+              transactionId,
               status: "success",
               transactionType: "ROI",
               postType: "profit",

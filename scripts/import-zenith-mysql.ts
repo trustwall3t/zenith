@@ -1,5 +1,5 @@
 /**
- * One-time (or repeatable) import: Zenith Growth MySQL → apextradezone-zenith Postgres.
+ * One-time (or repeatable) import: Zenith Habour MySQL → apextradezone-zenith Postgres.
  *
  * Usage:
  *   ZENITH_MYSQL_HOST=127.0.0.1 ZENITH_MYSQL_USER=root ZENITH_MYSQL_PASSWORD=... \
@@ -77,7 +77,7 @@ async function main() {
       where: { id: "default" },
       create: {
         id: "default",
-        siteName: String(s.site_name ?? "Zenith Growth"),
+        siteName: String(s.site_name ?? "Zenith Habour"),
         currency: String(s.currency ?? "$"),
         welcomeMessage: String(s.welcome_message ?? s.site_title ?? ""),
         enableKyc: yn(s.enable_kyc),
@@ -92,7 +92,7 @@ async function main() {
         logoUrl: resolvePublicStorageUrl(s.logo ? String(s.logo) : null),
       },
       update: {
-        siteName: String(s.site_name ?? "Zenith Growth"),
+        siteName: String(s.site_name ?? "Zenith Habour"),
         currency: String(s.currency ?? "$"),
         welcomeMessage: String(s.welcome_message ?? ""),
         tradeMode: yn(s.trade_mode ?? "on"),

@@ -37,7 +37,7 @@ export async function generateViewport(): Promise<Viewport> {
 
 export const metadata: Metadata = {
 	title: {
-		default: 'Zenith Growth',
+		default: 'Zenith Habour',
 		template: '%s',
 	},
 	description: 'Investment platform — copy trading, plans, and member dashboard.',

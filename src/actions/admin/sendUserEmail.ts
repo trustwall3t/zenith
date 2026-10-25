@@ -24,13 +24,20 @@ export async function sendUserEmail(data: z.infer<typeof AdminEmailSchema>) {
     return { error: "User not found." };
   }
 
-  const html = `
-    <h1>${parsed.data.subject}</h1>
-    <p>Hello ${user.name},</p>
-    <p>${parsed.data.message.replace(/\n/g, "<br/>")}</p>
-  `;
+  const safeMessage = parsed.data.message
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<br/>");
 
-  const result = await sendRawEmail(user.email, parsed.data.subject, html);
+  const html = `<p>${safeMessage}</p>`;
+
+  const result = await sendRawEmail(
+    user.email,
+    parsed.data.subject,
+    html,
+    user.name,
+  );
   if (!result.success) {
     return { error: result.error ?? "Failed to send email." };
   }

@@ -16,7 +16,7 @@ export default function SmartsuppScript() {
 
 		// Initialize Smartsupp
 		const _smartsupp = window._smartsupp ?? {};
-		_smartsupp.key = '358ab5419be7123e646f7cc3f293964f071f7859';
+		_smartsupp.key = '861b63da969ac857c0708df91aeb94be103ad04f';
 		window._smartsupp = _smartsupp;
 
 		if (!window.smartsupp) {

@@ -1,5 +1,9 @@
 import { db } from "@/lib/db";
-import { nextGrowthAfter } from "@/lib/investment/roi-schedule";
+import {
+  nextGrowthAfter,
+  formatIncrementInterval,
+  resolvePlanLastGrowth,
+} from "@/lib/investment/roi-schedule";
 
 export type UserPlanView = {
   id: string;
@@ -35,8 +39,15 @@ export async function getUserInvestmentPlanViews(
   const now = new Date();
 
   return rows.map((row) => {
-    const last =
-      row.lastGrowth ?? row.activatedAt ?? row.createdAt ?? now;
+    const last = resolvePlanLastGrowth(
+      {
+        lastGrowth: row.lastGrowth,
+        activatedAt: row.activatedAt,
+        createdAt: row.createdAt,
+        profitEarned: row.profitEarned,
+      },
+      row.plan.incrementInterval,
+    );
     const nextPayoutAt = nextGrowthAfter(last, row.plan.incrementInterval);
     const isActive = row.status === "yes";
 
@@ -49,9 +60,9 @@ export async function getUserInvestmentPlanViews(
       status: row.status,
       activatedAt: row.activatedAt?.toISOString() ?? null,
       expireDate: row.expireDate?.toISOString() ?? null,
-      lastGrowth: row.lastGrowth?.toISOString() ?? null,
+      lastGrowth: last.toISOString(),
       nextPayoutAt: nextPayoutAt.toISOString(),
-      incrementLabel: `${row.plan.incrementAmount}% ${row.plan.incrementInterval}`,
+      incrementLabel: `${row.plan.incrementAmount}% ${formatIncrementInterval(row.plan.incrementInterval)}`,
       isActive,
     };
   });
@@ -85,6 +96,27 @@ export async function getUserRoiHistory(
     planName: r.planName,
     createdAt: r.createdAt.toISOString(),
   }));
+}
+
+/** 0–100: elapsed share of plan term (activation → expiry). */
+export function planTermProgressPercent(plan: {
+  activatedAt: string | null;
+  expireDate: string | null;
+  isActive: boolean;
+}): number | null {
+  if (!plan.isActive || !plan.activatedAt || !plan.expireDate) {
+    return null;
+  }
+  const start = new Date(plan.activatedAt).getTime();
+  const end = new Date(plan.expireDate).getTime();
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) {
+    return null;
+  }
+  const now = Date.now();
+  if (now <= start) return 0;
+  if (now >= end) return 100;
+  const pct = ((now - start) / (end - start)) * 100;
+  return Math.min(100, Math.max(0, pct));
 }
 
 export function summarizeActivePlans(plans: UserPlanView[]) {

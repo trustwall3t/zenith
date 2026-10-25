@@ -16,11 +16,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  getAdminRoiRecords,
   getAdminUserInvestmentPlans,
   summarizeAdminPlans,
+  summarizeAdminRoiRecords,
 } from "@/lib/investment/admin-plans";
 import { db } from "@/lib/db";
 import { RunCronClient } from "./RunCronClient";
+import { RoiRecordsTable } from "./RoiRecordsTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const dynamic = "force-dynamic";
@@ -40,7 +43,11 @@ function formatDate(d: Date | null) {
   });
 }
 
-function PlansTable({ rows }: { rows: Awaited<ReturnType<typeof getAdminUserInvestmentPlans>> }) {
+function PlansTable({
+  rows,
+}: {
+  rows: Awaited<ReturnType<typeof getAdminUserInvestmentPlans>>;
+}) {
   if (rows.length === 0) {
     return (
       <DashboardEmptyState
@@ -64,6 +71,7 @@ function PlansTable({ rows }: { rows: Awaited<ReturnType<typeof getAdminUserInve
               <TableHead>Next payout</TableHead>
               <TableHead>Expires</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -102,6 +110,19 @@ function PlansTable({ rows }: { rows: Awaited<ReturnType<typeof getAdminUserInve
                   >
                     {row.isActive ? "Active" : row.status}
                   </span>
+                  {row.isActive && row.userTradeMode !== "on" ? (
+                    <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-0.5">
+                      User trade mode off
+                    </p>
+                  ) : null}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Link
+                    href={`/admin/dashboard/plans?plan=${row.id}`}
+                    className="text-xs font-medium text-brand hover:underline"
+                  >
+                    ROI history
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}
@@ -112,24 +133,42 @@ function PlansTable({ rows }: { rows: Awaited<ReturnType<typeof getAdminUserInve
   );
 }
 
-export default async function AdminInvestmentPlansPage() {
+export default async function AdminInvestmentPlansPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string }>;
+}) {
   const admin = await getAdminSession();
   if (!admin) redirect("/admin/login");
 
-  const [allPlans, activePlans, settings] = await Promise.all([
-    getAdminUserInvestmentPlans(),
-    getAdminUserInvestmentPlans({ activeOnly: true }),
-    db.siteSettings.findUnique({ where: { id: "default" } }),
-  ]);
+  const params = await searchParams;
+  const planFilter = params.plan?.trim() || undefined;
+
+  const [allPlans, activePlans, settings, roiRecords, roiActiveOnly] =
+    await Promise.all([
+      getAdminUserInvestmentPlans(),
+      getAdminUserInvestmentPlans({ activeOnly: true }),
+      db.siteSettings.findUnique({ where: { id: "default" } }),
+      planFilter
+        ? getAdminRoiRecords({ userPlanId: planFilter, limit: 500 })
+        : getAdminRoiRecords({ limit: 250 }),
+      getAdminRoiRecords({ activePlansOnly: true, limit: 250 }),
+    ]);
 
   const activeSummary = summarizeAdminPlans(allPlans);
+  const roiSummary = summarizeAdminRoiRecords(roiRecords);
+  const roiActiveSummary = summarizeAdminRoiRecords(roiActiveOnly);
+  const filteredPlan = planFilter
+    ? allPlans.find((p) => p.id === planFilter)
+    : undefined;
+  const defaultTab = planFilter ? "roi" : "active";
 
   return (
     <div className="space-y-6">
       <PageHeader
         icon={PageIcons.investmentPlans}
         title="Investment plans"
-        description="Active user plans, ROI performance, and manual cron for local or emergency runs."
+        description="Active user plans, ROI payment ledger, and manual cron for local or emergency runs."
       />
 
       <RunCronClient />
@@ -165,15 +204,71 @@ export default async function AdminInvestmentPlansPage() {
         ) : null}
       </p>
 
-      <Tabs defaultValue="active">
+      <Tabs defaultValue={defaultTab} key={defaultTab}>
         <TabsList>
           <TabsTrigger value="active">
             Active ({activePlans.length})
           </TabsTrigger>
-          <TabsTrigger value="all">All ({allPlans.length})</TabsTrigger>
+          <TabsTrigger value="roi">ROI records</TabsTrigger>
+          <TabsTrigger value="all">All plans ({allPlans.length})</TabsTrigger>
         </TabsList>
         <TabsContent value="active" className="mt-4">
           <PlansTable rows={activePlans} />
+        </TabsContent>
+        <TabsContent value="roi" className="mt-4 space-y-4">
+          {filteredPlan ? (
+            <div className="rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <p className="font-medium">
+                  ROI for {filteredPlan.userName} — {filteredPlan.planName}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Principal {formatMoney(filteredPlan.amount)} · Earned on plan{" "}
+                  {formatMoney(filteredPlan.profitEarned)} · {filteredPlan.incrementLabel}
+                </p>
+              </div>
+              <Link
+                href="/admin/dashboard/plans"
+                className="text-xs font-medium text-brand hover:underline"
+              >
+                Clear filter
+              </Link>
+            </div>
+          ) : (
+            <div className="rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm">
+              <p className="font-medium">Recent ROI payments</p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Latest platform-wide ROI credits (up to 250). Active-plan ROI
+                total in view: {formatMoney(roiActiveSummary.totalAmount)} (
+                {roiActiveSummary.count} rows). Use{" "}
+                <span className="font-medium">ROI history</span> on a plan row to
+                filter one subscription.
+              </p>
+            </div>
+          )}
+          <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+            <span>
+              Showing <strong className="text-foreground">{roiSummary.count}</strong>{" "}
+              payments
+            </span>
+            <span>
+              Total{" "}
+              <strong className="text-foreground tabular-nums">
+                {formatMoney(roiSummary.totalAmount)}
+              </strong>
+            </span>
+          </div>
+          <RoiRecordsTable
+            rows={roiRecords}
+            emptyTitle={
+              planFilter ? "No ROI for this plan" : "No ROI payments yet"
+            }
+            emptyDescription={
+              planFilter
+                ? "This subscription has not received automatic ROI credits yet, or trade mode was off."
+                : "When automatic ROI runs, successful credits appear here."
+            }
+          />
         </TabsContent>
         <TabsContent value="all" className="mt-4">
           <PlansTable rows={allPlans} />

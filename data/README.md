@@ -1,6 +1,6 @@
 # Zenith MySQL dump (local only)
 
-Put your **Zenith Growth** database export here:
+Put your **Zenith Habour** database export here:
 
 ```text
 data/zenith-mysql.sql

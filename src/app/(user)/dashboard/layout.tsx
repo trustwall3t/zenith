@@ -13,6 +13,7 @@ import { UserMenu } from './_components/UserMenu';
 import { Clock3, ShieldAlert } from 'lucide-react';
 import { ThemeToggle } from '@/components/dashboard/ThemeToggle';
 import { Button } from '@/components/ui/button';
+import { syncUserRoi } from '@/lib/investment/sync-user-roi';
 import { resolveKycDisplayState } from '@/lib/kyc-status';
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
@@ -22,6 +23,8 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	}
 
 	const kycState = resolveKycDisplayState(session.user);
+
+	await syncUserRoi(session.userId);
 
 	return (
 		<UserProvider>

@@ -9,7 +9,7 @@ import { SITE_LOGO_URL } from "@/lib/public/site-logo";
 import type { HomeStats } from "@/types/site";
 
 const defaultSite: SiteInfo = {
-  siteName: "Zenith Growth",
+  siteName: "Zenith Habour",
   siteTitle: "Home",
   description: "",
   welcomeMessage: "Welcome — start your mirror trading journey",

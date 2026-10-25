@@ -10,7 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { RoiPaymentView, UserPlanView } from "@/lib/investment/user-plans";
+import {
+  planTermProgressPercent,
+  type RoiPaymentView,
+  type UserPlanView,
+} from "@/lib/investment/user-plans";
 import Link from "next/link";
 
 function money(n: number, currency: string) {
@@ -26,15 +30,6 @@ function formatWhen(iso: string | null) {
     dateStyle: "medium",
     timeStyle: "short",
   });
-}
-
-function payoutProgress(plan: UserPlanView) {
-  if (!plan.isActive || !plan.lastGrowth) return 0;
-  const start = new Date(plan.lastGrowth).getTime();
-  const end = new Date(plan.nextPayoutAt).getTime();
-  const now = Date.now();
-  if (end <= start) return 100;
-  return Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
 }
 
 export function ActivePlansSection({
@@ -97,8 +92,8 @@ export function ActivePlansSection({
           <div className="border-b border-border px-4 py-3 sm:px-5">
             <h2 className="text-sm font-semibold">Active plans & ROI schedule</h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Next payout times follow your plan interval (Hourly, Daily, Weekly,
-              Monthly). ROI runs via the platform scheduler.
+              Next payout follows your plan interval. Due ROI is credited when
+              you open the dashboard or via the daily scheduler.
             </p>
           </div>
           <div className="overflow-x-auto">
@@ -110,13 +105,13 @@ export function ActivePlansSection({
                   <TableHead>ROI rate</TableHead>
                   <TableHead className="text-right">Earned</TableHead>
                   <TableHead>Next payout</TableHead>
-                  <TableHead className="min-w-[120px]">Progress</TableHead>
+                  <TableHead className="min-w-[120px]">Plan term</TableHead>
                   <TableHead>Expires</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {active.map((plan) => {
-                  const pct = payoutProgress(plan);
+                  const termPct = planTermProgressPercent(plan);
                   return (
                     <TableRow key={plan.id}>
                       <TableCell className="font-medium">{plan.planName}</TableCell>
@@ -133,15 +128,25 @@ export function ActivePlansSection({
                         {formatWhen(plan.nextPayoutAt)}
                       </TableCell>
                       <TableCell>
-                        <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
-                          <div
-                            className="h-full rounded-full bg-brand transition-all"
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-                        <p className="text-[10px] text-muted-foreground mt-1 tabular-nums">
-                          {Math.round(pct)}% to next drop
-                        </p>
+                        {termPct != null ? (
+                          <>
+                            <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+                              <div
+                                className="h-full max-w-full rounded-full bg-brand transition-all"
+                                style={{
+                                  width: `${Math.min(100, Math.round(termPct))}%`,
+                                }}
+                              />
+                            </div>
+                            <p className="text-[10px] text-muted-foreground mt-1 tabular-nums">
+                              {Math.round(termPct)}% of plan duration
+                            </p>
+                          </>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">
+                            No fixed term
+                          </span>
+                        )}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
                         {formatWhen(plan.expireDate)}
@@ -154,6 +159,14 @@ export function ActivePlansSection({
           </div>
         </DashboardPanel>
       )}
+
+      {active.length > 0 && roiHistory.length === 0 ? (
+        <DashboardPanel className="p-4 text-sm text-muted-foreground">
+          No ROI payments yet. If your next payout time has passed, refresh this
+          page — due amounts are added to your wallet and appear under Recent ROI
+          payments and transaction history.
+        </DashboardPanel>
+      ) : null}
 
       {roiHistory.length > 0 ? (
         <DashboardPanel>

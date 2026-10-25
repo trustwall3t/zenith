@@ -1,16 +1,12 @@
-import nodemailer from "nodemailer";
-
-function transporter() {
-  return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT || 465),
-    secure: process.env.EMAIL_SECURE === "true",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-}
+import {
+  detailRow,
+  escapeHtml,
+  formatUsd,
+  getPublicBaseUrl,
+  paragraph,
+  renderInstitutionalEmail,
+} from "@/lib/email/email-layout";
+import { isEmailConfigured, sendMail } from "@/lib/email/resend-client";
 
 export async function sendRoiEmail(opts: {
   to: string;
@@ -19,15 +15,28 @@ export async function sendRoiEmail(opts: {
   amount: number;
   currency: string;
 }) {
-  const from = process.env.EMAIL_FROM || process.env.EMAIL_USER;
-  if (!from || !process.env.EMAIL_USER) return;
+  if (!isEmailConfigured()) return;
 
-  await transporter().sendMail({
-    from,
+  const amountLabel =
+    opts.currency.trim() === "$" || opts.currency.toUpperCase() === "USD"
+      ? formatUsd(opts.amount)
+      : `${escapeHtml(opts.currency)}${opts.amount.toLocaleString()}`;
+
+  await sendMail({
     to: opts.to,
-    subject: "New Return on Investment (ROI)",
-    html: `<p>Hi ${opts.name},</p>
-<p>Your plan <strong>${opts.planName}</strong> earned ${opts.currency}${opts.amount.toLocaleString()}.</p>`,
+    subject: "ROI distribution notice",
+    html: renderInstitutionalEmail({
+      preheader: `ROI credited: ${opts.planName}.`,
+      headline: "Return on investment",
+      intro: `Dear ${opts.name}, a scheduled return has been credited to your account.`,
+      bodyHtml: `
+        ${detailRow("Investment plan", opts.planName)}
+        ${detailRow("Distribution amount", amountLabel, true)}
+        ${detailRow("Status", "Credited")}
+        ${paragraph("This distribution is reflected in your wallet and transaction history.")}
+      `,
+      cta: { label: "View my plans", href: `${getPublicBaseUrl()}/dashboard/plans` },
+    }),
   });
 }
 
@@ -39,16 +48,28 @@ export async function sendPlanClosedEmail(opts: {
   currency: string;
   siteName: string;
 }) {
-  const from = process.env.EMAIL_FROM || process.env.EMAIL_USER;
-  if (!from || !process.env.EMAIL_USER) return;
+  if (!isEmailConfigured()) return;
 
-  await transporter().sendMail({
-    from,
+  const principal =
+    opts.currency.trim() === "$" || opts.currency.toUpperCase() === "USD"
+      ? formatUsd(opts.amount)
+      : `${escapeHtml(opts.currency)}${opts.amount.toLocaleString()}`;
+
+  await sendMail({
     to: opts.to,
-    subject: "Investment plan closed",
-    html: `<p>Hi ${opts.name},</p>
-<p>Your investment plan <strong>${opts.planName}</strong> (${opts.currency}${opts.amount.toLocaleString()}) has closed.</p>
-<p>— ${opts.siteName}</p>`,
+    subject: "Investment plan matured",
+    html: renderInstitutionalEmail({
+      preheader: `Plan closed: ${opts.planName}.`,
+      headline: "Investment plan matured",
+      intro: `Dear ${opts.name}, your investment plan term has ended.`,
+      bodyHtml: `
+        ${detailRow("Plan", opts.planName)}
+        ${detailRow("Principal", principal)}
+        ${detailRow("Status", "Closed")}
+        ${paragraph(`Thank you for investing with ${opts.siteName}.`)}
+      `,
+      cta: { label: "Explore plans", href: `${getPublicBaseUrl()}/dashboard/plans` },
+    }),
   });
 }
 
@@ -58,14 +79,26 @@ export async function sendCopyTradeOpened(opts: {
   direction: string;
   stake: number;
 }) {
-  const from = process.env.EMAIL_FROM || process.env.EMAIL_USER;
-  if (!from || !process.env.EMAIL_USER) return;
+  if (!isEmailConfigured()) return;
 
-  await transporter().sendMail({
-    from,
+  await sendMail({
     to: opts.to,
-    subject: "Copy trade opened",
-    html: `<p>A copy trade on <strong>${opts.symbol}</strong> (${opts.direction}) opened with stake $${opts.stake.toFixed(2)}.</p>`,
+    subject: "Position opened — copy trade",
+    html: renderInstitutionalEmail({
+      preheader: `New ${opts.symbol} copy position opened.`,
+      headline: "Copy trade opened",
+      intro: "A new copy-trading position has been opened on your account.",
+      bodyHtml: `
+        ${detailRow("Instrument", opts.symbol)}
+        ${detailRow("Direction", opts.direction.toUpperCase())}
+        ${detailRow("Stake", formatUsd(opts.stake), true)}
+        ${detailRow("Status", "Open")}
+      `,
+      cta: {
+        label: "Live trading",
+        href: `${getPublicBaseUrl()}/dashboard/live-trading`,
+      },
+    }),
   });
 }
 
@@ -75,13 +108,29 @@ export async function sendCopyTradeClosed(opts: {
   status: string;
   profit: number;
 }) {
-  const from = process.env.EMAIL_FROM || process.env.EMAIL_USER;
-  if (!from || !process.env.EMAIL_USER) return;
+  if (!isEmailConfigured()) return;
 
-  await transporter().sendMail({
-    from,
+  const pl = formatUsd(Math.abs(opts.profit));
+  const plLabel =
+    opts.profit > 0 ? `+${pl}` : opts.profit < 0 ? `-${pl}` : pl;
+
+  await sendMail({
     to: opts.to,
-    subject: "Copy trade closed",
-    html: `<p>Your <strong>${opts.symbol}</strong> trade closed as <strong>${opts.status}</strong>. P/L: $${opts.profit.toFixed(2)}.</p>`,
+    subject: "Position closed — copy trade",
+    html: renderInstitutionalEmail({
+      preheader: `${opts.symbol} copy trade closed (${opts.status}).`,
+      headline: "Copy trade closed",
+      intro: "Your copy-trading position has settled.",
+      bodyHtml: `
+        ${detailRow("Instrument", opts.symbol)}
+        ${detailRow("Outcome", opts.status)}
+        ${detailRow("Profit / loss", plLabel, opts.profit >= 0)}
+        ${detailRow("Status", "Closed")}
+      `,
+      cta: {
+        label: "Trading history",
+        href: `${getPublicBaseUrl()}/dashboard/trading-history`,
+      },
+    }),
   });
 }

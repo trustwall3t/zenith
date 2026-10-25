@@ -1,4 +1,4 @@
-/** URL slugs matching Zenith Growth `routes/home.php`. */
+/** URL slugs matching Zenith Habour `routes/home.php`. */
 export const PUBLIC_SLUGS = [
   "about",
   "terms",

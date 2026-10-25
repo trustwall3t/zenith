@@ -1,5 +1,4 @@
 import { db } from "@/lib/db";
-import { initialLastGrowth } from "@/lib/investment/roi-schedule";
 import { revalidatePath } from "next/cache";
 
 export async function joinInvestmentPlan(
@@ -26,7 +25,8 @@ export async function joinInvestmentPlan(
   if (balance < amount) throw new Error("Insufficient wallet balance.");
 
   const now = new Date();
-  const lastGrowth = initialLastGrowth(plan.incrementInterval, now);
+  /** First ROI interval starts at activation (see resolvePlanLastGrowth). */
+  const lastGrowth = now;
   let expireDate: Date | null = null;
   if (plan.expiration) {
     const days = parseInt(plan.expiration.replace(/\D/g, ""), 10);
