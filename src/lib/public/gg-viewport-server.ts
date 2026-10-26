@@ -3,37 +3,10 @@ import { GG_LAYOUT_WIDTH } from "@/lib/public/gg-layout-width";
 
 const DEFAULT_MOBILE_CSS_WIDTH = 390;
 
-function isMobileUserAgent(userAgent: string): boolean {
-  return /iphone|ipod|ipad|android|mobile|webos|blackberry|iemobile|opera mini/i.test(
-    userAgent,
-  );
-}
-
-function deviceWidthFromCookie(
-  cookieHeader: string | null,
-  userAgent: string,
-): number | null {
-  if (!cookieHeader) return null;
-  const match = cookieHeader.match(/(?:^|;\s*)gg-vw=(\d+)/);
-  if (!match) return null;
-  const parsed = parseInt(match[1]!, 10);
-  if (!Number.isFinite(parsed) || parsed <= 0 || parsed >= 2400) {
-    return null;
-  }
-  if (isMobileUserAgent(userAgent) && parsed > 820) {
-    return null;
-  }
-  return parsed;
-}
-
 export function estimateDeviceCssWidth(
   userAgent: string,
   viewportWidthClientHint: string | null,
-  cookieHeader?: string | null,
 ): number {
-  const fromCookie = deviceWidthFromCookie(cookieHeader ?? null, userAgent);
-  if (fromCookie) return fromCookie;
-
   if (viewportWidthClientHint) {
     const parsed = parseInt(viewportWidthClientHint, 10);
     if (Number.isFinite(parsed) && parsed > 0 && parsed < 2400) {
@@ -76,8 +49,7 @@ export function resolveMarketingViewport(headerList: Headers): Viewport {
   const vw =
     headerList.get("sec-ch-viewport-width") ??
     headerList.get("Sec-CH-Viewport-Width");
-  const cookie = headerList.get("cookie");
-  const deviceWidth = estimateDeviceCssWidth(ua, vw, cookie);
+  const deviceWidth = estimateDeviceCssWidth(ua, vw);
   return marketingViewportFromDeviceWidth(deviceWidth);
 }
 

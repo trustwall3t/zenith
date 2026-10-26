@@ -30,11 +30,7 @@ export async function middleware(request: NextRequest) {
 		return nextWithPathname(request, adminResponse.headers);
 	}
 
-	const response = nextWithPathname(request);
-	// Client hint for more accurate SSR viewport scale on repeat visits.
-	response.headers.set('Accept-CH', 'Sec-CH-Viewport-Width, Sec-CH-Viewport-Height');
-	response.headers.set('Critical-CH', 'Sec-CH-Viewport-Width');
-	return response;
+	return nextWithPathname(request);
 }
 
 export const config = {

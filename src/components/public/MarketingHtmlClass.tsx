@@ -6,15 +6,15 @@ import { useEffect } from "react";
 
 function revealMarketingLayout(html: HTMLElement) {
   html.classList.remove("gg-desktop-boot");
-  html.classList.add("gg-desktop-ready", "gg-layout-ready");
+  html.classList.add("gg-desktop-ready");
 }
 
-/** Applies Zenith `gg-public` classes on <html>/<body> for marketing routes only. */
+/** Applies Zenith public marketing classes on marketing routes only. */
 export function MarketingHtmlClass() {
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
-    html.classList.add("gg-public-root", "gg-desktop-lock");
+    html.classList.add("gg-public-root", "gg-desktop-lock", "gg-desktop-boot");
     html.classList.remove("dark");
     html.style.setProperty("--gg-desktop-lock-width", `${GG_LAYOUT_WIDTH}px`);
     html.style.colorScheme = "light";
@@ -22,9 +22,6 @@ export function MarketingHtmlClass() {
 
     const onReady = () => revealMarketingLayout(html);
     html.addEventListener("gg-desktop-ready", onReady);
-    if (html.classList.contains("gg-desktop-ready")) {
-      onReady();
-    }
 
     const raf = requestAnimationFrame(() => {
       requestAnimationFrame(() => {

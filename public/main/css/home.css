@@ -58,99 +58,6 @@ body.gg-public {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Public desktop layout (early in cascade — avoids mobile-first flash before full sheet loads). */
-body.gg-public .gg-nav-toggle {
-  display: none !important;
-}
-
-body.gg-public .gg-header-inner {
-  flex-wrap: nowrap !important;
-}
-
-body.gg-public .gg-nav {
-  display: flex !important;
-  flex-basis: auto !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 0 !important;
-  padding: 0 !important;
-  margin-top: 0 !important;
-  border-top: none !important;
-}
-
-body.gg-public .gg-nav > a,
-body.gg-public .gg-nav summary {
-  padding: 0.5rem 0.65rem;
-  border-bottom: none !important;
-}
-
-body.gg-public .gg-nav details {
-  position: relative !important;
-  border-bottom: none !important;
-}
-
-body.gg-public .gg-drop {
-  position: absolute !important;
-  top: calc(100% + 0.25rem) !important;
-  left: 0 !important;
-  min-width: 15rem !important;
-  margin: 0 !important;
-  padding: 0.35rem 0 !important;
-  background: var(--gg-surface) !important;
-  border: 1px solid var(--gg-rule) !important;
-  border-radius: var(--gg-radius) !important;
-  box-shadow: 0 8px 24px rgba(26, 35, 50, 0.06) !important;
-}
-
-body.gg-public .gg-nav-cta {
-  margin: 0 !important;
-  text-align: inherit !important;
-  border-bottom: none !important;
-}
-
-body.gg-public .gg-tp-reviews-shell {
-  max-height: 37.5rem;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: auto;
-  max-width: none;
-  margin-inline: 0;
-  padding: 0.15rem;
-}
-
-body.gg-public .gg-tp-track {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  flex-wrap: unset !important;
-  overflow: visible !important;
-  scroll-snap-type: none !important;
-  padding: 0 !important;
-}
-
-body.gg-public .gg-tp-card {
-  flex: unset !important;
-  width: auto !important;
-  max-width: none !important;
-  scroll-snap-align: unset !important;
-}
-
-body.gg-public .gg-plans-bento {
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.45fr) !important;
-}
-
-body.gg-public .gg-plans-rail {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  overflow-x: visible !important;
-  scroll-snap-type: none !important;
-  padding-bottom: 0 !important;
-}
-
-body.gg-public .gg-plans-rail .gg-plan-tier {
-  flex: unset !important;
-  scroll-snap-align: unset !important;
-}
-
 .gg-shell {
   box-sizing: border-box;
 }
@@ -887,17 +794,17 @@ button.gg-btn-solid {
 }
 
 @media (max-width: 640px) {
-  body:not(.gg-public) .gg-carousel-section {
+.gg-carousel-section {
     padding-top: 2.5rem;
     padding-bottom: 2.75rem;
   }
 
-  body:not(.gg-public) .gg-carousel-viewport {
+.gg-carousel-viewport {
     aspect-ratio: 4 / 3;
     max-height: none;
   }
 
-  body:not(.gg-public) .gg-carousel-caption {
+.gg-carousel-caption {
     font-size: 0.75rem;
     padding-bottom: 0.85rem;
   }
@@ -1627,24 +1534,24 @@ button.gg-btn-solid {
   color: var(--gg-on-accent);
 }
 
-/* Mobile layout: auth / other shells only — public pages (body.gg-public) keep desktop layout. */
+/* Mobile layout */
 @media (max-width: 960px) {
-  body:not(.gg-public) .gg-nav-toggle {
+  .gg-nav-toggle {
     display: inline-flex;
     align-items: center;
   }
 
-  body:not(.gg-public) .gg-header {
+.gg-header {
     height: auto;
     min-height: var(--gg-header);
   }
 
-  body:not(.gg-public) .gg-header-inner {
+.gg-header-inner {
     flex-wrap: wrap;
     padding: 0.65rem 0;
   }
 
-  body:not(.gg-public) .gg-nav {
+.gg-nav {
     display: none;
     flex-basis: 100%;
     flex-direction: column;
@@ -1655,22 +1562,22 @@ button.gg-btn-solid {
     margin-top: 0.35rem;
   }
 
-  body:not(.gg-public).gg-nav-open .gg-nav {
+  body.gg-nav-open .gg-nav {
     display: flex;
   }
 
-  body:not(.gg-public) .gg-nav > a,
-  body:not(.gg-public) .gg-nav summary {
+.gg-nav > a,
+.gg-nav summary {
     padding: 0.55rem 0.25rem;
     border-bottom: 1px solid var(--gg-rule);
   }
 
-  body:not(.gg-public) .gg-nav details {
+.gg-nav details {
     position: static;
     border-bottom: 1px solid var(--gg-rule);
   }
 
-  body:not(.gg-public) .gg-drop {
+.gg-drop {
     position: static;
     min-width: 0;
     margin: 0;
@@ -1680,90 +1587,90 @@ button.gg-btn-solid {
     background: transparent;
   }
 
-  body:not(.gg-public) .gg-nav-cta {
+.gg-nav-cta {
     margin: 0.65rem 0 0;
     text-align: center;
     border-bottom: none !important;
   }
 
-  body:not(.gg-public) .gg-split,
-  body:not(.gg-public) .gg-layout,
-  body:not(.gg-public) .gg-contact,
-  body:not(.gg-public) .gg-footer-grid {
+.gg-split,
+.gg-layout,
+.gg-contact,
+.gg-footer-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 
-  body:not(.gg-public) .gg-cards,
-  body:not(.gg-public) #services .gg-cards {
+.gg-cards,
+#services .gg-cards {
     grid-template-columns: 1fr;
   }
 
-  body:not(.gg-public) .gg-card {
+.gg-card {
     border-right: none;
   }
 
-  body:not(.gg-public) .gg-card:nth-child(3n) {
+.gg-card:nth-child(3n) {
     border-right: none;
   }
 
-  body:not(.gg-public) .gg-stats {
+.gg-stats {
     grid-template-columns: 1fr;
   }
 
-  body:not(.gg-public) .gg-stat {
+.gg-stat {
     border-right: none;
     border-bottom: 1px solid var(--gg-rule);
   }
 
-  body:not(.gg-public) .gg-stat:last-child {
+.gg-stat:last-child {
     border-bottom: none;
   }
 
-  body:not(.gg-public) .gg-pairs {
+.gg-pairs {
     grid-template-columns: 1fr;
   }
 
-  body:not(.gg-public) .gg-pairs li {
+.gg-pairs li {
     border-right: none;
   }
 
-  body:not(.gg-public) .gg-side {
+.gg-side {
     position: static;
     border-left: none;
     border-top: 1px solid var(--gg-rule);
     padding-top: 1rem;
   }
 
-  body:not(.gg-public) .gg-side a {
+.gg-side a {
     margin-left: 0;
     border-left: none;
     padding-left: 0;
   }
 
-  body:not(.gg-public) .gg-hero {
+.gg-hero {
     min-height: min(26rem, 78vh);
   }
 
-  body:not(.gg-public) .gg-hero-copy {
+.gg-hero-copy {
     max-width: none;
     padding: 4rem 0 2.75rem;
   }
 
-  body:not(.gg-public) .gg-hero-bg-slide {
+.gg-hero-bg-slide {
     object-position: center;
   }
 
-  body:not(.gg-public) .gg-partners {
+.gg-partners {
     justify-content: flex-start;
     gap: 1.25rem 1.75rem;
   }
 
-  body:not(.gg-public) .gg-plans-bento {
+.gg-plans-bento {
     grid-template-columns: 1fr;
   }
 
-  body:not(.gg-public) .gg-plans-rail {
+.gg-plans-rail {
     display: flex;
     flex-direction: row;
     gap: 0.85rem;
@@ -1773,7 +1680,7 @@ button.gg-btn-solid {
     -webkit-overflow-scrolling: touch;
   }
 
-  body:not(.gg-public) .gg-plans-rail .gg-plan-tier {
+.gg-plans-rail .gg-plan-tier {
     flex: 0 0 min(78vw, 19rem);
     scroll-snap-align: start;
   }
@@ -2066,7 +1973,7 @@ button.gg-btn-solid {
 }
 
 @media (max-width: 640px) {
-  body:not(.gg-public) .gg-tp-reviews-shell {
+.gg-tp-reviews-shell {
     max-height: none;
     overflow: visible;
     width: 100vw;
@@ -2075,7 +1982,7 @@ button.gg-btn-solid {
     padding: 0;
   }
 
-  body:not(.gg-public) .gg-tp-track {
+.gg-tp-track {
     display: flex;
     flex-wrap: nowrap;
     gap: 1rem;
@@ -2087,7 +1994,7 @@ button.gg-btn-solid {
     scrollbar-color: var(--gg-rule) transparent;
   }
 
-  body:not(.gg-public) .gg-tp-card {
+.gg-tp-card {
     flex: 0 0 min(88vw, 20rem);
     scroll-snap-align: start;
   }

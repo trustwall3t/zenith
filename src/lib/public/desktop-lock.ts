@@ -7,7 +7,6 @@ export const PUBLIC_DESKTOP_HTML_CLASSES = [
   "gg-desktop-lock",
   "gg-desktop-boot",
   "gg-desktop-ready",
-  "gg-layout-ready",
 ] as const;
 
 export const PUBLIC_DESKTOP_BODY_CLASSES = ["gg-public", "gg-desktop-lock"] as const;

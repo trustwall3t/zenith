@@ -2,6 +2,7 @@ import DynamicStyles from '@/components/DynamicStyles';
 import { PublicDesktopLockLifecycle } from '@/components/public/PublicDesktopLockLifecycle';
 import SmartsuppScript from '@/components/SmartsuppScript';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { GoogleTranslateEngine } from '@/components/public/GoogleTranslateEngine';
 import { DesktopViewport } from '@/components/public/DesktopViewport';
 import { GG_LAYOUT_WIDTH } from '@/lib/public/gg-layout-width';
 import { ggViewportBootstrapScript } from '@/lib/public/gg-viewport-bootstrap';
@@ -9,7 +10,6 @@ import {
 	defaultAppViewport,
 	resolveMarketingViewport,
 } from '@/lib/public/gg-viewport-server';
-import { GoogleTranslateEngine } from '@/components/public/GoogleTranslateEngine';
 import { getPublicSite } from '@/lib/public/home-payload';
 import { isPublicMarketingRoute } from '@/lib/public/marketing-routes';
 import type { Metadata, Viewport } from 'next';
@@ -84,8 +84,8 @@ export default async function RootLayout({
 				) : null}
 			</head>
 			<body className={bodyClass} suppressHydrationWarning>
-				{site.googleTranslate ? <GoogleTranslateEngine /> : null}
 				{isMarketing ? <DesktopViewport /> : null}
+				{site.googleTranslate ? <GoogleTranslateEngine /> : null}
 				<ThemeProvider
 					forcedTheme={isMarketing ? 'light' : undefined}
 					defaultTheme={isMarketing ? 'light' : 'dark'}

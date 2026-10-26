@@ -1,41 +1,5 @@
-/* Zenith Habour: desktop layout on all devices (see gg-desktop-viewport-fit.js). */
+/* Marketing: light theme, normal responsive layout (no viewport zoom). */
 
-html.gg-public-root.gg-desktop-lock .gg-nav-toggle {
-  display: none !important;
-}
-
-/* Public pages never use the auth/dashboard mobile breakpoints in home.css */
-@media (max-width: 960px) {
-  body.gg-public .gg-nav-toggle {
-    display: none !important;
-  }
-
-  body.gg-public .gg-header-inner {
-    flex-wrap: nowrap !important;
-  }
-
-  body.gg-public .gg-nav {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-basis: auto !important;
-    border-top: none !important;
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  body.gg-public .gg-nav > a,
-  body.gg-public .gg-nav summary {
-    border-bottom: none !important;
-  }
-
-  body.gg-public .gg-drop {
-    position: absolute !important;
-    min-width: 15rem !important;
-    box-shadow: 0 8px 24px rgba(26, 35, 50, 0.08) !important;
-  }
-}
-
-/* Isolate marketing from dashboard Tailwind dark theme (next-themes default). */
 html.gg-public-root,
 html.gg-public-root.dark {
   color-scheme: light;
@@ -71,7 +35,6 @@ body.gg-public .gg-quotes iframe {
   max-width: 100%;
 }
 
-/* Prose links — never override button-styled anchors (was hiding CTA label text). */
 body.gg-public .gg-prose a:not(.gg-btn):not(.gg-btn-solid):not(.gg-btn-ghost):not(.gg-btn-outline),
 body.gg-public .gg-panel a:not(.gg-btn):not(.gg-btn-solid):not(.gg-btn-ghost):not(.gg-btn-outline),
 body.gg-public .gg-contact a:not(.gg-btn):not(.gg-btn-solid):not(.gg-btn-ghost):not(.gg-btn-outline) {
@@ -99,7 +62,6 @@ body.gg-public a.gg-btn-solid:hover {
   color: var(--gg-on-accent) !important;
 }
 
-/* Ghost on light sections (service pages, prose CTAs). */
 body.gg-public .gg-prose a.gg-btn-ghost,
 body.gg-public .gg-page-hero ~ * a.gg-btn-ghost,
 body.gg-public .gg-section--inner a.gg-btn-ghost,
@@ -120,7 +82,6 @@ body.gg-public a.gg-btn-outline:hover {
   border-color: var(--gg-accent-hover) !important;
 }
 
-/* Ghost on dark hero / featured plan only. */
 body.gg-public .gg-hero a.gg-btn-ghost,
 body.gg-public .gg-plan-tier--featured a.gg-btn-ghost {
   border: 1px solid rgba(250, 249, 247, 0.55) !important;
@@ -184,6 +145,12 @@ body.gg-public .gg-trust-bar {
   background: var(--gg-surface);
   border: 1px solid var(--gg-rule);
   border-radius: var(--gg-radius);
+}
+
+@media (max-width: 960px) {
+  body.gg-public .gg-trust-bar {
+    grid-template-columns: 1fr;
+  }
 }
 
 body.gg-public .gg-trust-bar-item strong {

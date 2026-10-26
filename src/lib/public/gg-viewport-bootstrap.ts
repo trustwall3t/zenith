@@ -1,8 +1,8 @@
 import { GG_LAYOUT_WIDTH } from "@/lib/public/gg-layout-width";
 
 /**
- * Runs synchronously in <head> on marketing pages — before first paint.
- * Does NOT mark layout ready; gg-desktop-viewport-fit.js locks scale on real devices.
+ * Runs synchronously in <head> on marketing pages — must execute before first paint
+ * so mobile browsers apply scaled viewport (matches hanafidelity.com).
  */
 export function ggViewportBootstrapScript(layoutWidth = GG_LAYOUT_WIDTH): string {
   return `(function () {
@@ -13,33 +13,16 @@ export function ggViewportBootstrapScript(layoutWidth = GG_LAYOUT_WIDTH): string
   root.classList.add("gg-public-root", "gg-desktop-lock", "gg-desktop-boot");
   root.style.setProperty("--gg-desktop-lock-width", layoutWidth + "px");
 
-  function isMobileUa() {
-    var ua = navigator.userAgent || "";
-    return /iphone|ipod|ipad|android|mobile|webos|blackberry|iemobile|opera mini/i.test(ua);
-  }
-
-  function readDeviceWidthFromCookie() {
-    try {
-      var m = document.cookie.match(/(?:^|;\\s*)gg-vw=(\\d+)/);
-      if (!m) return 0;
-      var w = parseInt(m[1], 10);
-      if (w <= 0 || w >= 2400) return 0;
-      if (isMobileUa() && w > 820) return 0;
-      return w;
-    } catch (e) {}
-    return 0;
-  }
-
-  /** Stable width on real phones — visualViewport/innerWidth jump when the URL bar moves. */
-  function readStableDeviceWidth() {
-    var fromCookie = readDeviceWidthFromCookie();
-    if (fromCookie > 0) return fromCookie;
+  function readDeviceWidth() {
     if (window.screen && window.screen.width > 0) {
-      var sw = window.screen.width;
-      var sh = window.screen.height || sw;
-      return Math.min(sw, sh);
+      return window.screen.width;
     }
-    if (window.innerWidth > 0) return window.innerWidth;
+    if (window.visualViewport && window.visualViewport.width > 0) {
+      return window.visualViewport.width;
+    }
+    if (window.innerWidth > 0) {
+      return window.innerWidth;
+    }
     return layoutWidth;
   }
 
@@ -60,13 +43,6 @@ export function ggViewportBootstrapScript(layoutWidth = GG_LAYOUT_WIDTH): string
     );
   }
 
-  function persistDeviceWidth(w) {
-    try {
-      document.cookie =
-        "gg-vw=" + Math.round(w) + "; path=/; max-age=604800; samesite=lax";
-    } catch (e) {}
-  }
-
   document.querySelectorAll('meta[name="viewport"]').forEach(function (m) {
     if (!m.getAttribute("data-gg-fit")) m.remove();
   });
@@ -80,14 +56,11 @@ export function ggViewportBootstrapScript(layoutWidth = GG_LAYOUT_WIDTH): string
     document.head.appendChild(meta);
   }
 
-  var deviceWidth = readStableDeviceWidth();
-  persistDeviceWidth(deviceWidth);
-  meta.content = viewportContent(computeScale(deviceWidth));
-  meta.setAttribute("data-gg-scale-locked", "0");
+  meta.content = viewportContent(computeScale(readDeviceWidth()));
 
   function markBody() {
     if (document.body) {
-      document.body.classList.add("gg-desktop-lock", "gg-public");
+      document.body.classList.add("gg-public", "gg-desktop-lock");
     }
   }
   markBody();
