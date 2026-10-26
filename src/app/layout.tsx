@@ -75,17 +75,12 @@ export default async function RootLayout({
 			<head>
 				<link rel='stylesheet' href='/main/css/gg-google-translate.css' />
 				{isMarketing ? (
-					<>
-						<link rel='stylesheet' href='/main/css/font-awesome.min.css' />
-						<link rel='stylesheet' href='/main/css/home.css' />
-						<link rel='stylesheet' href='/main/css/gg-desktop-lock.css' />
-						<script
-							id='gg-viewport-bootstrap'
-							dangerouslySetInnerHTML={{
-								__html: ggViewportBootstrapScript(GG_LAYOUT_WIDTH),
-							}}
-						/>
-					</>
+					<script
+						id='gg-viewport-bootstrap'
+						dangerouslySetInnerHTML={{
+							__html: ggViewportBootstrapScript(GG_LAYOUT_WIDTH),
+						}}
+					/>
 				) : null}
 			</head>
 			<body className={bodyClass} suppressHydrationWarning>

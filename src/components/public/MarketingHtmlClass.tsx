@@ -20,20 +20,24 @@ export function MarketingHtmlClass() {
     html.style.colorScheme = "light";
     body.classList.add("gg-public", "gg-desktop-lock");
 
-    if (!html.classList.contains("gg-desktop-ready")) {
-      html.classList.add("gg-desktop-boot");
-    }
-
     const onReady = () => revealMarketingLayout(html);
     html.addEventListener("gg-desktop-ready", onReady);
     if (html.classList.contains("gg-desktop-ready")) {
       onReady();
     }
 
-    const timeout = window.setTimeout(onReady, 500);
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (html.classList.contains("gg-desktop-boot")) {
+          revealMarketingLayout(html);
+        }
+      });
+    });
+    const timeout = window.setTimeout(onReady, 3000);
 
     return () => {
       html.removeEventListener("gg-desktop-ready", onReady);
+      cancelAnimationFrame(raf);
       window.clearTimeout(timeout);
       clearPublicDesktopLock();
     };

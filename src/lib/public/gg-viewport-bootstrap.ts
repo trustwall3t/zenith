@@ -13,7 +13,19 @@ export function ggViewportBootstrapScript(layoutWidth = GG_LAYOUT_WIDTH): string
   root.classList.add("gg-public-root", "gg-desktop-lock", "gg-desktop-boot");
   root.style.setProperty("--gg-desktop-lock-width", layoutWidth + "px");
 
+  function readDeviceWidthFromCookie() {
+    try {
+      var m = document.cookie.match(/(?:^|;\\s*)gg-vw=(\\d+)/);
+      if (!m) return 0;
+      var w = parseInt(m[1], 10);
+      if (w > 0 && w < 2400) return w;
+    } catch (e) {}
+    return 0;
+  }
+
   function readDeviceWidth() {
+    var fromCookie = readDeviceWidthFromCookie();
+    if (fromCookie > 0) return fromCookie;
     if (window.visualViewport && window.visualViewport.width > 0) {
       return window.visualViewport.width;
     }

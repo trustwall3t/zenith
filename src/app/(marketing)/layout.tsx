@@ -1,5 +1,6 @@
 import { MarketingHtmlClass } from "@/components/public/MarketingHtmlClass";
 import { MarketingThemeGuard } from "@/components/public/MarketingThemeGuard";
+import { PublicBootGate } from "@/components/public/PublicBootGate";
 import { getPublicSite } from "@/lib/public/home-payload";
 import { SITE_LOGO_URL } from "@/lib/public/site-logo";
 import { GG_LAYOUT_WIDTH } from "@/lib/public/gg-layout-width";
@@ -25,6 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const GG_CRITICAL_CSS = `
+html.gg-public-root.gg-desktop-boot{background:#faf9f7}
+html.gg-public-root.gg-desktop-boot:not(.gg-desktop-ready) body{visibility:hidden}
+html.gg-public-root.gg-desktop-ready body{visibility:visible}
 html.gg-public-root.gg-desktop-lock .gg-nav-toggle{display:none!important}
 html.gg-public-root.gg-desktop-lock .gg-nav{display:flex!important;position:static!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;padding:0!important;border-bottom:none!important}
 html.gg-public-root.gg-desktop-lock .gg-header-inner{flex-wrap:nowrap!important;position:static!important}
@@ -50,7 +54,11 @@ export default async function MarketingLayout({ children }: { children: ReactNod
       <link rel="stylesheet" href="/main/css/font-awesome.min.css" />
       <link rel="stylesheet" href="/main/css/home.css" />
       <link rel="stylesheet" href="/main/css/gg-desktop-lock.css" />
+      <noscript>
+        <style>{`html.gg-public-root.gg-desktop-boot body{visibility:visible!important}`}</style>
+      </noscript>
       <MarketingThemeGuard>
+        <PublicBootGate />
         <MarketingHtmlClass />
         {children}
       </MarketingThemeGuard>

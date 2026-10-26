@@ -93,6 +93,16 @@
         }
     }
 
+    function readDeviceWidthFromCookie() {
+        try {
+            var m = document.cookie.match(/(?:^|;\s*)gg-vw=(\d+)/);
+            if (!m) return 0;
+            var w = parseInt(m[1], 10);
+            if (w > 0 && w < 2400) return w;
+        } catch (e) {}
+        return 0;
+    }
+
     function apply() {
         if (!meta.isConnected || !root.classList.contains('gg-public-root')) {
             return;
@@ -102,7 +112,8 @@
                 m.remove();
             }
         });
-        var deviceWidth = readDeviceWidth();
+        var fromCookie = readDeviceWidthFromCookie();
+        var deviceWidth = fromCookie > 0 ? fromCookie : readDeviceWidth();
         persistDeviceWidth(deviceWidth);
         var scale = computeScale(deviceWidth);
         var next = viewportContent(scale);
@@ -111,19 +122,26 @@
         }
     }
 
+    var resizeTimer = 0;
+    function applyDebounced() {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(function () {
+            apply();
+            syncViewportHeight();
+        }, 120);
+    }
+
     apply();
+    markReady();
 
     if (document.readyState === 'loading') {
         track(document, 'DOMContentLoaded', function () {
             apply();
             markReady();
         }, { once: true });
-    } else {
-        apply();
-        markReady();
     }
 
-    var revealTimeout = window.setTimeout(markReady, 800);
+    var revealTimeout = window.setTimeout(markReady, 400);
 
     track(window, 'orientationchange', function () {
         window.setTimeout(function () {
@@ -132,15 +150,9 @@
             markReady();
         }, 200);
     });
-    track(window, 'resize', function () {
-        apply();
-        syncViewportHeight();
-    });
+    track(window, 'resize', applyDebounced);
     if (window.visualViewport) {
-        track(window.visualViewport, 'resize', function () {
-            apply();
-            syncViewportHeight();
-        });
+        track(window.visualViewport, 'resize', applyDebounced);
     }
 
     window.__ggTeardownDesktopViewport = function () {
