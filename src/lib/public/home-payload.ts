@@ -5,6 +5,7 @@ import {
   getPublicMarketQuotes,
 } from "@/lib/public/market-quotes-public";
 import { loadHomeTestimonials } from "@/lib/public/testimonials";
+import { resolveGoogleTranslateEnabled } from "@/lib/public/google-translate";
 import { SITE_LOGO_URL } from "@/lib/public/site-logo";
 import type { HomeStats } from "@/types/site";
 
@@ -15,7 +16,7 @@ const defaultSite: SiteInfo = {
   welcomeMessage: "Welcome — start your mirror trading journey",
   currency: "$",
   logoUrl: SITE_LOGO_URL,
-  googleTranslate: false,
+  googleTranslate: resolveGoogleTranslateEnabled(true),
   redirectUrl: null,
   contactEmail: null,
 };
@@ -31,7 +32,9 @@ export async function getPublicSite(): Promise<SiteInfo> {
       welcomeMessage: s.welcomeMessage,
       currency: s.currency,
       logoUrl: SITE_LOGO_URL,
-      googleTranslate: s.googleTranslate,
+      googleTranslate: resolveGoogleTranslateEnabled(
+        s.googleTranslate ?? true,
+      ),
       redirectUrl: null,
       contactEmail: s.contactEmail,
     };

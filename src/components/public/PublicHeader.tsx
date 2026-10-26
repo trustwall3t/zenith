@@ -1,12 +1,14 @@
+import { LanguageSelector } from "@/components/public/LanguageSelector";
 import Link from "next/link";
 import { authLoginUrl, authSignupUrl } from "@/lib/public/auth-links";
 import { SITE_LOGO_URL_ON_LIGHT_BG } from "@/lib/public/site-logo";
 
 type Props = {
   brandName: string;
+  showTranslate?: boolean;
 };
 
-export function PublicHeader({ brandName }: Props) {
+export function PublicHeader({ brandName, showTranslate = false }: Props) {
   return (
     <header className="gg-header">
       <div className="gg-header-inner">
@@ -21,6 +23,11 @@ export function PublicHeader({ brandName }: Props) {
           />
         </Link>
         <div className="gg-header-end">
+          <div className="gg-header-translate-slot">
+            {showTranslate ? (
+              <LanguageSelector variant="marketing" />
+            ) : null}
+          </div>
           <nav className="gg-nav" id="gg-nav">
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>

@@ -1,4 +1,6 @@
+import { sendPlanClosedEmail, sendRoiEmail } from "@/lib/email/zenith-notifications";
 import { db } from "@/lib/db";
+import { Prisma } from "@/generated/prisma";
 import {
   computeIncrement,
   isWeekend,
@@ -6,7 +8,6 @@ import {
   nextGrowthAfter,
   resolvePlanLastGrowth,
 } from "@/lib/investment/roi-schedule";
-import { sendRoiEmail, sendPlanClosedEmail } from "@/lib/email/zenith-notifications";
 
 export type RoiCronResult = {
   credited: number;
@@ -14,6 +15,137 @@ export type RoiCronResult = {
   expired: number;
   weekendSkipped: number;
 };
+
+type RoiDropOutcome =
+  | { kind: "not_due" }
+  | { kind: "weekend_skip" }
+  | { kind: "already_paid" }
+  | { kind: "credited" };
+
+async function applyOneRoiDrop(args: {
+  userPlanId: string;
+  userId: string;
+  planName: string;
+  planInterval: string;
+  increment: number;
+  now: Date;
+  weekendTrade: boolean;
+  activatedAt: Date | null;
+  createdAt: Date;
+}): Promise<RoiDropOutcome> {
+  const {
+    userPlanId,
+    userId,
+    planName,
+    planInterval,
+    increment,
+    now,
+    weekendTrade,
+    activatedAt,
+    createdAt,
+  } = args;
+
+  try {
+    return await db.$transaction(async (tx) => {
+      const locked = await tx.$queryRaw<
+        {
+          lastGrowth: Date | null;
+          profitEarned: number;
+        }[]
+      >`
+        SELECT "lastGrowth", "profitEarned"
+        FROM "UserInvestmentPlan"
+        WHERE id = ${userPlanId}
+        FOR UPDATE
+      `;
+      const planRow = locked[0];
+      if (!planRow) {
+        return { kind: "not_due" };
+      }
+
+      const lastGrowth = resolvePlanLastGrowth(
+        {
+          lastGrowth: planRow.lastGrowth,
+          activatedAt,
+          createdAt,
+          profitEarned: planRow.profitEarned,
+        },
+        planInterval,
+      );
+
+      const nextDrop = nextGrowthAfter(lastGrowth, planInterval);
+      if (now < nextDrop) {
+        return { kind: "not_due" };
+      }
+
+      if (isWeekend(nextDrop) && !weekendTrade) {
+        await tx.userInvestmentPlan.update({
+          where: { id: userPlanId },
+          data: { lastGrowth: nextDrop },
+        });
+        return { kind: "weekend_skip" };
+      }
+
+      const transactionId = `roi-${userPlanId}-${nextDrop.getTime()}`;
+      const existing = await tx.transaction.findUnique({
+        where: { transactionId },
+        select: { id: true },
+      });
+      if (existing) {
+        const stored = planRow.lastGrowth?.getTime() ?? 0;
+        if (stored < nextDrop.getTime()) {
+          await tx.userInvestmentPlan.update({
+            where: { id: userPlanId },
+            data: { lastGrowth: nextDrop },
+          });
+        }
+        return { kind: "already_paid" };
+      }
+
+      await tx.transaction.create({
+        data: {
+          userId,
+          paymentMethod: "system",
+          transactionId,
+          status: "success",
+          transactionType: "ROI",
+          postType: "profit",
+          amount: increment,
+          type: "ROI",
+          planName,
+          userPlanId,
+        },
+      });
+
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          walletBalance: { increment },
+          profitBalance: { increment },
+          roiTotal: { increment },
+        },
+      });
+
+      await tx.userInvestmentPlan.update({
+        where: { id: userPlanId },
+        data: {
+          lastGrowth: nextDrop,
+          profitEarned: { increment },
+        },
+      });
+
+      return { kind: "credited" };
+    });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return { kind: "already_paid" };
+    }
+    throw error;
+  }
+}
 
 /**
  * Automatic ROI — port of Zenith `AutoTaskController::automaticRoi`.
@@ -57,94 +189,47 @@ export async function runAutomaticRoi(userId?: string): Promise<RoiCronResult> {
 
     const planInterval = dplan.incrementInterval;
     const maxCatchup = maxCatchupForInterval(planInterval);
-
-    let lastGrowth = resolvePlanLastGrowth(
-      {
-        lastGrowth: row.lastGrowth,
-        activatedAt: row.activatedAt,
-        createdAt: row.createdAt,
-        profitEarned: row.profitEarned,
-      },
-      planInterval,
-    );
-    const expireDate = row.expireDate;
     const increment = computeIncrement(
       row.amount,
       dplan.incrementAmount,
       dplan.incrementType,
     );
 
+    const expireDate = row.expireDate;
     const stillActive = expireDate ? now <= expireDate : true;
     const isExpired = expireDate ? now > expireDate : false;
 
     if (stillActive) {
-      let profitEarned = row.profitEarned;
-      let catchup = 0;
-      let walletBalance = user.walletBalance ?? 0;
-      let profitBalance = user.profitBalance ?? 0;
-      let roiTotal = user.roiTotal;
       let creditedThisPlan = 0;
+      let catchup = 0;
 
       while (catchup < maxCatchup) {
-        const nextDrop = nextGrowthAfter(lastGrowth, planInterval);
-        if (now < nextDrop) break;
-
-        if (isWeekend(nextDrop) && !settings.weekendTrade) {
-          lastGrowth = nextDrop;
-          result.weekendSkipped++;
-          catchup++;
-          continue;
-        }
-
-        const transactionId = `roi-${row.id}-${nextDrop.getTime()}`;
-        const alreadyPaid = await db.transaction.findFirst({
-          where: { transactionId },
-          select: { id: true },
+        const outcome = await applyOneRoiDrop({
+          userPlanId: row.id,
+          userId: user.id,
+          planName: dplan.name,
+          planInterval,
+          increment,
+          now,
+          weekendTrade: settings.weekendTrade,
+          activatedAt: row.activatedAt,
+          createdAt: row.createdAt,
         });
-        if (alreadyPaid) {
-          lastGrowth = nextDrop;
-          catchup++;
-          continue;
+
+        if (outcome.kind === "not_due") {
+          break;
         }
 
-        walletBalance += increment;
-        profitBalance += increment;
-        roiTotal += increment;
-        profitEarned += increment;
-        lastGrowth = nextDrop;
         catchup++;
 
-        await db.$transaction(async (tx) => {
-          await tx.user.update({
-            where: { id: user.id },
-            data: {
-              roiTotal,
-              walletBalance,
-              profitBalance,
-            },
-          });
-          await tx.transaction.create({
-            data: {
-              userId: user.id,
-              paymentMethod: "system",
-              transactionId,
-              status: "success",
-              transactionType: "ROI",
-              postType: "profit",
-              amount: increment,
-              type: "ROI",
-              planName: dplan.name,
-              userPlanId: row.id,
-            },
-          });
-          await tx.userInvestmentPlan.update({
-            where: { id: row.id },
-            data: {
-              lastGrowth,
-              profitEarned,
-            },
-          });
-        });
+        if (outcome.kind === "weekend_skip") {
+          result.weekendSkipped++;
+          continue;
+        }
+
+        if (outcome.kind === "already_paid") {
+          continue;
+        }
 
         creditedThisPlan++;
         result.credited++;

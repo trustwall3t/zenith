@@ -1,8 +1,12 @@
 import { AuthBrandLogo } from "@/components/auth/AuthBrandLogo";
+import { LanguageSelector } from "@/components/public/LanguageSelector";
 import { ThemeToggle } from "@/components/dashboard/ThemeToggle";
 import { UserProvider } from "@/lib/context/UserContext";
+import { getPublicSite } from "@/lib/public/home-payload";
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
+  const site = await getPublicSite();
+
   return (
     <div className="flex min-h-screen w-full bg-background text-foreground">
       <div className="relative hidden min-h-screen w-full bg-[url('/bg-1.jpg')] bg-cover bg-center p-10 md:block">
@@ -12,14 +16,18 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
       <div className="relative flex w-full flex-col bg-background">
-        <div className="flex items-center justify-between px-4 pt-4 sm:px-6 sm:pt-6 md:hidden">
-          <AuthBrandLogo />
-          <ThemeToggle />
-        </div>
-        <div className="relative flex flex-1 items-center justify-center">
-          <div className="absolute right-4 top-4 z-10 hidden sm:right-6 sm:top-6 md:block">
+        <div className="flex items-center justify-between gap-2 px-4 pt-4 sm:px-6 sm:pt-6">
+          <div className="md:hidden">
+            <AuthBrandLogo />
+          </div>
+          <div className="ml-auto flex items-center gap-2">
+            {site.googleTranslate ? (
+              <LanguageSelector variant="app" />
+            ) : null}
             <ThemeToggle />
           </div>
+        </div>
+        <div className="relative flex flex-1 items-center justify-center">
           <UserProvider>{children}</UserProvider>
         </div>
       </div>

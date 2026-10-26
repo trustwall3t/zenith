@@ -253,66 +253,7 @@ body.gg-public {
   min-height: 2rem;
 }
 
-.gg-public-translate-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 60;
-  line-height: 1;
-  pointer-events: none;
-}
-
-.gg-public-translate-bar .goog-te-gadget,
-.gg-public-translate-bar .goog-te-gadget-simple {
-  pointer-events: auto;
-}
-
-.skiptranslate iframe,
-.goog-te-banner-frame {
-  display: none !important;
-}
-
-body > .skiptranslate {
-  height: 0 !important;
-  overflow: hidden;
-}
-
-#goog-gt-tt,
-.goog-te-balloon-frame {
-  display: none !important;
-}
-
-/* Hide duplicate floating translate controls Google may inject on the body */
-body.gg-public > .goog-te-gadget-simple,
-body.gg-public > div[id^=":"] .goog-te-gadget-simple {
-  display: none !important;
-}
-
-.gg-public-translate-bar #google_translate_element,
-.gg-public-translate-bar #google_translate_element select,
-.gg-public-translate-bar #google_translate_element .goog-te-gadget-simple {
-  font-family: var(--gg-sans) !important;
-  font-size: 0.8125rem !important;
-  color: var(--gg-ink-soft) !important;
-}
-
-.gg-public-translate-bar #google_translate_element .goog-te-gadget-simple {
-  padding: 0.4rem 0.65rem !important;
-  border: 1px solid var(--gg-rule) !important;
-  border-radius: var(--gg-radius) !important;
-  background: var(--gg-paper) !important;
-  box-shadow: 0 4px 14px rgba(26, 35, 50, 0.08);
-}
-
-.gg-public-translate-bar #google_translate_element .goog-te-gadget-simple .goog-te-menu-value,
-.gg-public-translate-bar #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span {
-  color: var(--gg-ink-soft) !important;
-}
-
-.gg-public-translate-bar #google_translate_element .goog-te-gadget-icon {
-  margin-right: 0.35rem !important;
-  opacity: 0.85;
-}
+/* Translate UI: see /main/css/gg-google-translate.css */
 
 .gg-brand {
   display: flex;

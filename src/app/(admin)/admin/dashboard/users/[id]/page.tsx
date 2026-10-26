@@ -5,6 +5,7 @@ import { StatCard } from '@/components/dashboard/StatCard';
 import { DashboardPanel } from '@/components/dashboard/DashboardPanel';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { AdminLoginAsUserButton } from '@/components/admin/AdminLoginAsUserButton';
 
 function formatMoney(value: number | null | undefined) {
 	return `$${(value ?? 0).toLocaleString(undefined, {
@@ -56,9 +57,12 @@ const ViewUser = async ({ params }: { params: Promise<{ id: string }> }) => {
 				title={user.name}
 				description='Account balances and profile details.'
 				actions={
-					<Button asChild variant='outline' size='sm'>
-						<Link href='/admin/dashboard/users'>Back</Link>
-					</Button>
+					<div className='flex flex-wrap items-center gap-2'>
+						<AdminLoginAsUserButton userId={user.id} variant='default' />
+						<Button asChild variant='outline' size='sm'>
+							<Link href='/admin/dashboard/users'>Back</Link>
+						</Button>
+					</div>
 				}
 			/>
 

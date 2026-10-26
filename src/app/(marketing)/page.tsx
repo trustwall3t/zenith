@@ -22,7 +22,10 @@ export default async function MarketingHomePage() {
 			className='gg-shell'
 			id='gg-public-shell'
 		>
-			<PublicHeader brandName={data.site.siteName} />
+			<PublicHeader
+				brandName={data.site.siteName}
+				showTranslate={data.site.googleTranslate}
+			/>
 			<main className='gg-main'>
 				<HeroSection welcomeMessage={data.site.welcomeMessage} />
 				<MarketTicker marketQuotes={data.marketQuotes} />

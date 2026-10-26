@@ -6,8 +6,22 @@ const JWT_SECRET = new TextEncoder().encode(
 	process.env.JWT_SECRET || 'your-secret-key'
 );
 
-export async function createSession(userId: string) {
-	const token = await new SignJWT({ userId })
+export type CreateSessionOptions = {
+	impersonatedByAdminId?: string;
+};
+
+export async function createSession(
+	userId: string,
+	options?: CreateSessionOptions,
+) {
+	const payload: { userId: string; impersonatedByAdminId?: string } = {
+		userId,
+	};
+	if (options?.impersonatedByAdminId) {
+		payload.impersonatedByAdminId = options.impersonatedByAdminId;
+	}
+
+	const token = await new SignJWT(payload)
 		.setProtectedHeader({ alg: 'HS256' })
 		.setIssuedAt()
 		.setExpirationTime('24h')
@@ -44,7 +58,7 @@ export async function getSession() {
 	if (!token) return null;
 
 	try {
-		 await jwtVerify(token, JWT_SECRET);
+		const { payload } = await jwtVerify(token, JWT_SECRET);
 		const session = await db.session.findFirst({
 			where: {
 				token,
@@ -67,7 +81,13 @@ export async function getSession() {
 		});
 
 		if (!session) return null;
-		return session;
+
+		const impersonatedByAdminId =
+			typeof payload.impersonatedByAdminId === 'string'
+				? payload.impersonatedByAdminId
+				: undefined;
+
+		return { ...session, impersonatedByAdminId };
 	} catch (error) {
 		console.log(error)
 		return null;

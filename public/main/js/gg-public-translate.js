@@ -1,7 +1,16 @@
 (function () {
   var slot = document.querySelector('.gg-header-translate-slot');
   var bar = document.querySelector('.gg-public-translate-bar');
-  if (!slot || !bar) {
+  if (!bar) {
+    return;
+  }
+
+  if (!slot || bar.classList.contains('gg-public-translate-inline')) {
+    bar.style.position = 'relative';
+    bar.style.top = 'auto';
+    bar.style.left = 'auto';
+    bar.style.right = 'auto';
+    bar.style.pointerEvents = 'auto';
     return;
   }
 

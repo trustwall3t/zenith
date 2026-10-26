@@ -22,7 +22,10 @@ export function PublicPageShell({
   const trail = kicker ?? title;
   return (
     <div className="gg-shell" id="gg-public-shell">
-      <PublicHeader brandName={site.siteName} />
+      <PublicHeader
+        brandName={site.siteName}
+        showTranslate={site.googleTranslate}
+      />
       <main className="gg-main">
         <header className="gg-page-hero">
           <div className="gg-wrap">

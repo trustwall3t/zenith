@@ -19,7 +19,8 @@
     "sync:zenith-public": "bash scripts/sync-zenith-public.sh",
     "fix:site-logo": "tsx scripts/fix-site-logo-url.ts",
     "check:user-password": "tsx scripts/check-user-password.ts",
-    "backfill:user-confirm": "tsx scripts/backfill-imported-user-confirm.ts"
+    "backfill:user-confirm": "tsx scripts/backfill-imported-user-confirm.ts",
+    "db:dedupe-transaction-ids": "tsx scripts/dedupe-transaction-ids.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

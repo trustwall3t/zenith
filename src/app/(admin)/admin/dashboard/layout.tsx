@@ -16,9 +16,17 @@ import { ChevronDown, Settings2, UserRound } from 'lucide-react';
 import { ThemeLogo } from '@/components/brand/ThemeLogo';
 import Link from 'next/link';
 import LogoutButton from '../../components/LogoutButton';
+import { DashboardGoogleTranslate } from '@/components/dashboard/DashboardGoogleTranslate';
 import { ThemeToggle } from '@/components/dashboard/ThemeToggle';
+import { getPublicSite } from '@/lib/public/home-payload';
 
-const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const AdminDashboardLayout = async ({
+	children,
+}: {
+	children: React.ReactNode;
+}) => {
+	const site = await getPublicSite();
+
 	return (
 		<SidebarProvider>
 			<SideBar />
@@ -38,7 +46,8 @@ const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
 						</div>
 					</div>
 
-					<div className='flex items-center gap-1'>
+					<div className='flex items-center gap-2'>
+						{site.googleTranslate ? <DashboardGoogleTranslate /> : null}
 						<ThemeToggle />
 						<Menubar className='border-none bg-transparent shadow-none'>
 							<MenubarMenu>

@@ -221,7 +221,7 @@ model Transaction {
   id              String   @id @default(uuid())
   userId          String
   paymentMethod   String
-  transactionId   String
+  transactionId   String   @unique
   status          String
   transactionType String
   postType        String

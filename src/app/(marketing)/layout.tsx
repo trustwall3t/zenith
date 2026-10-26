@@ -1,4 +1,3 @@
-import { GoogleTranslateBar } from "@/components/public/GoogleTranslateBar";
 import { MarketingHtmlClass } from "@/components/public/MarketingHtmlClass";
 import { MarketingThemeGuard } from "@/components/public/MarketingThemeGuard";
 import { getPublicSite } from "@/lib/public/home-payload";
@@ -53,7 +52,6 @@ export default async function MarketingLayout({ children }: { children: ReactNod
       <link rel="stylesheet" href="/main/css/gg-desktop-lock.css" />
       <MarketingThemeGuard>
         <MarketingHtmlClass />
-        {site.googleTranslate ? <GoogleTranslateBar /> : null}
         {children}
       </MarketingThemeGuard>
     </>

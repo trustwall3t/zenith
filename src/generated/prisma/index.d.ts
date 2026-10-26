@@ -20350,12 +20350,12 @@ export namespace Prisma {
 
   export type TransactionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    transactionId?: string
     AND?: TransactionWhereInput | TransactionWhereInput[]
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
     userId?: StringFilter<"Transaction"> | string
     paymentMethod?: StringFilter<"Transaction"> | string
-    transactionId?: StringFilter<"Transaction"> | string
     status?: StringFilter<"Transaction"> | string
     transactionType?: StringFilter<"Transaction"> | string
     postType?: StringFilter<"Transaction"> | string
@@ -20367,7 +20367,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     date?: DateTimeFilter<"Transaction"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "transactionId">
 
   export type TransactionOrderByWithAggregationInput = {
     id?: SortOrder

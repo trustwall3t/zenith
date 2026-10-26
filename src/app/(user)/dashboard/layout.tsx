@@ -13,8 +13,11 @@ import { UserMenu } from './_components/UserMenu';
 import { Clock3, ShieldAlert } from 'lucide-react';
 import { ThemeToggle } from '@/components/dashboard/ThemeToggle';
 import { Button } from '@/components/ui/button';
+import { DashboardGoogleTranslate } from '@/components/dashboard/DashboardGoogleTranslate';
 import { syncUserRoi } from '@/lib/investment/sync-user-roi';
+import { getPublicSite } from '@/lib/public/home-payload';
 import { resolveKycDisplayState } from '@/lib/kyc-status';
+import { ImpersonationBanner } from '@/components/dashboard/ImpersonationBanner';
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	const session = await getSession();
@@ -22,7 +25,10 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 		redirect('/auth/login');
 	}
 
-	const kycState = resolveKycDisplayState(session.user);
+	const [kycState, site] = await Promise.all([
+		Promise.resolve(resolveKycDisplayState(session.user)),
+		getPublicSite(),
+	]);
 
 	await syncUserRoi(session.userId);
 
@@ -49,13 +55,20 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 							</div>
 						</div>
 
-						<div className='flex items-center gap-1'>
+						<div className='flex items-center gap-2'>
+							{site.googleTranslate ? <DashboardGoogleTranslate /> : null}
 							<ThemeToggle />
 							<UserMenu />
 						</div>
 					</header>
 
 					<div className='mt-16 flex-1 p-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] md:p-8 md:pb-8'>
+						{session.impersonatedByAdminId ? (
+							<ImpersonationBanner
+								memberName={session.user.name}
+								memberId={session.userId}
+							/>
+						) : null}
 						{kycState === 'required' ? (
 							<div className='mb-4 flex flex-col gap-3 rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-destructive sm:flex-row sm:items-center sm:justify-between'>
 								<p className='text-sm font-medium flex items-center gap-2'>

@@ -22,6 +22,7 @@ import {
   summarizeAdminRoiRecords,
 } from "@/lib/investment/admin-plans";
 import { db } from "@/lib/db";
+import { GoogleTranslateToggle } from "./GoogleTranslateToggle";
 import { RunCronClient } from "./RunCronClient";
 import { RoiRecordsTable } from "./RoiRecordsTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -194,15 +195,18 @@ export default async function AdminInvestmentPlansPage({
         </div>
       </div>
 
-      <p className="text-xs text-muted-foreground">
-        Global trade mode:{" "}
-        <span className="font-medium text-foreground">
-          {settings?.tradeMode ? "On" : "Off"}
-        </span>
-        {settings && !settings.tradeMode ? (
-          <span> — automatic ROI will not credit until enabled in site settings.</span>
-        ) : null}
-      </p>
+      <div className="space-y-2 text-xs text-muted-foreground">
+        <p>
+          Global trade mode:{" "}
+          <span className="font-medium text-foreground">
+            {settings?.tradeMode ? "On" : "Off"}
+          </span>
+          {settings && !settings.tradeMode ? (
+            <span> — automatic ROI will not credit until enabled in site settings.</span>
+          ) : null}
+        </p>
+        <GoogleTranslateToggle enabled={settings?.googleTranslate ?? true} />
+      </div>
 
       <Tabs defaultValue={defaultTab} key={defaultTab}>
         <TabsList>

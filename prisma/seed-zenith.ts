@@ -16,8 +16,9 @@ async function main() {
       enableSelfTrade: true,
       enableInvestmentPlans: true,
       enableKyc: true,
+      googleTranslate: true,
     },
-    update: {},
+    update: { googleTranslate: true },
   });
 
   for (const asset of COPY_TRADING.assets) {

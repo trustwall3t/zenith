@@ -52,6 +52,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
+import { AdminLoginAsUserButton } from "@/components/admin/AdminLoginAsUserButton";
 
 export type AdminUserRow = {
   id: string;
@@ -443,6 +444,12 @@ export function UsersAdminTable({ users }: { users: AdminUserRow[] }) {
                       ? "Enable trading"
                       : "Disable trading"}
                   </Button>
+
+                  <AdminLoginAsUserButton
+                    userId={manageUser.id}
+                    variant="default"
+                    fullWidth
+                  />
 
                   <Button asChild variant="secondary" className="w-full">
                     <Link href={`/admin/dashboard/users/${manageUser.id}`}>

@@ -9,6 +9,8 @@ import {
 	defaultAppViewport,
 	resolveMarketingViewport,
 } from '@/lib/public/gg-viewport-server';
+import { GoogleTranslateEngine } from '@/components/public/GoogleTranslateEngine';
+import { getPublicSite } from '@/lib/public/home-payload';
 import { isPublicMarketingRoute } from '@/lib/public/marketing-routes';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
@@ -50,6 +52,7 @@ export default async function RootLayout({
 }) {
 	const pathname = (await headers()).get('x-pathname') ?? '';
 	const isMarketing = isPublicMarketingRoute(pathname);
+	const site = await getPublicSite();
 
 	const htmlClass = isMarketing
 		? 'gg-public-root gg-desktop-lock gg-desktop-boot'
@@ -70,6 +73,7 @@ export default async function RootLayout({
 	return (
 		<html lang='en' className={htmlClass} style={htmlStyle} suppressHydrationWarning>
 			<head>
+				<link rel='stylesheet' href='/main/css/gg-google-translate.css' />
 				{isMarketing ? (
 					<>
 						<link rel='stylesheet' href='/main/css/font-awesome.min.css' />
@@ -85,6 +89,7 @@ export default async function RootLayout({
 				) : null}
 			</head>
 			<body className={bodyClass} suppressHydrationWarning>
+				{site.googleTranslate ? <GoogleTranslateEngine /> : null}
 				{isMarketing ? <DesktopViewport /> : null}
 				<ThemeProvider
 					forcedTheme={isMarketing ? 'light' : undefined}
