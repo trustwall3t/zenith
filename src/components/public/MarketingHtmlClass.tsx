@@ -14,28 +14,26 @@ export function MarketingHtmlClass() {
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
-    html.classList.add("gg-public-root", "gg-desktop-lock", "gg-desktop-boot");
+    html.classList.add("gg-public-root", "gg-desktop-lock");
     html.classList.remove("dark");
     html.style.setProperty("--gg-desktop-lock-width", `${GG_LAYOUT_WIDTH}px`);
     html.style.colorScheme = "light";
     body.classList.add("gg-public", "gg-desktop-lock");
 
+    if (!html.classList.contains("gg-desktop-ready")) {
+      html.classList.add("gg-desktop-boot");
+    }
+
     const onReady = () => revealMarketingLayout(html);
     html.addEventListener("gg-desktop-ready", onReady);
+    if (html.classList.contains("gg-desktop-ready")) {
+      onReady();
+    }
 
-    // Fallback if viewport-fit script ran before boot class or meta was missing.
-    const raf = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (html.classList.contains("gg-desktop-boot")) {
-          revealMarketingLayout(html);
-        }
-      });
-    });
-    const timeout = window.setTimeout(onReady, 3000);
+    const timeout = window.setTimeout(onReady, 500);
 
     return () => {
       html.removeEventListener("gg-desktop-ready", onReady);
-      cancelAnimationFrame(raf);
       window.clearTimeout(timeout);
       clearPublicDesktopLock();
     };

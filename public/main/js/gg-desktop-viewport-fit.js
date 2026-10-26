@@ -76,13 +76,21 @@
         }
     }
 
+    function persistDeviceWidth(w) {
+        try {
+            document.cookie =
+                'gg-vw=' + Math.round(w) + '; path=/; max-age=604800; samesite=lax';
+        } catch (e) {}
+    }
+
     function markReady() {
         syncViewportHeight();
-        root.classList.remove('gg-desktop-boot');
-        root.classList.add('gg-desktop-ready');
-        root.classList.add('gg-layout-ready');
-        root.dispatchEvent(new CustomEvent('gg-layout-ready'));
-        root.dispatchEvent(new CustomEvent('gg-desktop-ready'));
+        if (root.classList.contains('gg-desktop-boot')) {
+            root.classList.remove('gg-desktop-boot');
+            root.classList.add('gg-desktop-ready', 'gg-layout-ready');
+            root.dispatchEvent(new CustomEvent('gg-layout-ready'));
+            root.dispatchEvent(new CustomEvent('gg-desktop-ready'));
+        }
     }
 
     function apply() {
@@ -94,15 +102,13 @@
                 m.remove();
             }
         });
-        var scale = computeScale(readDeviceWidth());
+        var deviceWidth = readDeviceWidth();
+        persistDeviceWidth(deviceWidth);
+        var scale = computeScale(deviceWidth);
         var next = viewportContent(scale);
         if (meta.content !== next) {
             meta.content = next;
         }
-    }
-
-    function reveal() {
-        markReady();
     }
 
     apply();
@@ -110,24 +116,20 @@
     if (document.readyState === 'loading') {
         track(document, 'DOMContentLoaded', function () {
             apply();
-            requestAnimationFrame(function () {
-                requestAnimationFrame(reveal);
-            });
+            markReady();
         }, { once: true });
     } else {
         apply();
-        requestAnimationFrame(function () {
-            requestAnimationFrame(reveal);
-        });
+        markReady();
     }
 
-    var revealTimeout = window.setTimeout(reveal, 2500);
+    var revealTimeout = window.setTimeout(markReady, 800);
 
     track(window, 'orientationchange', function () {
         window.setTimeout(function () {
             apply();
             syncViewportHeight();
-            reveal();
+            markReady();
         }, 200);
     });
     track(window, 'resize', function () {

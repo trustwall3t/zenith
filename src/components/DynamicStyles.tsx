@@ -7,11 +7,12 @@ import { useEffect, useState } from 'react';
 
 export default function DynamicStyles() {
 	const pathname = usePathname();
-	const [isLoading, setIsLoading] = useState(true);
+	const isMarketing = isPublicMarketingRoute(pathname);
+	const [isLoading, setIsLoading] = useState(!isMarketing);
 	const [legacyDarkOverlay, setLegacyDarkOverlay] = useState(false);
 
 	useEffect(() => {
-		if (isPublicMarketingRoute(pathname)) {
+		if (isMarketing) {
 			setIsLoading(false);
 			setLegacyDarkOverlay(false);
 			return;
@@ -23,6 +24,7 @@ export default function DynamicStyles() {
 			!pathname.startsWith('/dashboard') &&
 			!pathname.startsWith('/auth')
 		) {
+			setIsLoading(true);
 			setLegacyDarkOverlay(true);
 			const styleLinks = [
 				'/assets/css/style.css',
@@ -69,9 +71,9 @@ export default function DynamicStyles() {
 
 		setLegacyDarkOverlay(false);
 		setIsLoading(false);
-	}, [pathname]);
+	}, [pathname, isMarketing]);
 
-	if (!isLoading) {
+	if (isMarketing || !isLoading) {
 		return null;
 	}
 

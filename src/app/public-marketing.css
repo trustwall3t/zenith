@@ -4,10 +4,6 @@ html.gg-public-root.gg-desktop-lock .gg-nav-toggle {
   display: none !important;
 }
 
-html.gg-public-root.gg-desktop-boot:not(.gg-desktop-ready) body {
-  visibility: hidden;
-}
-
 /* Public pages never use the auth/dashboard mobile breakpoints in home.css */
 @media (max-width: 960px) {
   body.gg-public .gg-nav-toggle {

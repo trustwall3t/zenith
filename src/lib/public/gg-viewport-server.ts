@@ -3,10 +3,25 @@ import { GG_LAYOUT_WIDTH } from "@/lib/public/gg-layout-width";
 
 const DEFAULT_MOBILE_CSS_WIDTH = 390;
 
+function deviceWidthFromCookie(cookieHeader: string | null): number | null {
+  if (!cookieHeader) return null;
+  const match = cookieHeader.match(/(?:^|;\s*)gg-vw=(\d+)/);
+  if (!match) return null;
+  const parsed = parseInt(match[1]!, 10);
+  if (Number.isFinite(parsed) && parsed > 0 && parsed < 2400) {
+    return parsed;
+  }
+  return null;
+}
+
 export function estimateDeviceCssWidth(
   userAgent: string,
   viewportWidthClientHint: string | null,
+  cookieHeader?: string | null,
 ): number {
+  const fromCookie = deviceWidthFromCookie(cookieHeader ?? null);
+  if (fromCookie) return fromCookie;
+
   if (viewportWidthClientHint) {
     const parsed = parseInt(viewportWidthClientHint, 10);
     if (Number.isFinite(parsed) && parsed > 0 && parsed < 2400) {
@@ -49,7 +64,8 @@ export function resolveMarketingViewport(headerList: Headers): Viewport {
   const vw =
     headerList.get("sec-ch-viewport-width") ??
     headerList.get("Sec-CH-Viewport-Width");
-  const deviceWidth = estimateDeviceCssWidth(ua, vw);
+  const cookie = headerList.get("cookie");
+  const deviceWidth = estimateDeviceCssWidth(ua, vw, cookie);
   return marketingViewportFromDeviceWidth(deviceWidth);
 }
 

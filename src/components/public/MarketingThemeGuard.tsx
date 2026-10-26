@@ -1,13 +1,6 @@
-"use client";
-
-import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
-/** Dashboard uses dark mode by default; public marketing must stay light (Zenith home.css). */
+/** Marketing stays light via root layout ThemeProvider; this is a stable wrapper only. */
 export function MarketingThemeGuard({ children }: { children: ReactNode }) {
-  return (
-    <ThemeProvider attribute="class" forcedTheme="light" enableSystem={false}>
-      {children}
-    </ThemeProvider>
-  );
+  return children;
 }

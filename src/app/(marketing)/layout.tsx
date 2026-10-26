@@ -1,7 +1,6 @@
 import { GoogleTranslateBar } from "@/components/public/GoogleTranslateBar";
 import { MarketingHtmlClass } from "@/components/public/MarketingHtmlClass";
 import { MarketingThemeGuard } from "@/components/public/MarketingThemeGuard";
-import { PublicBootGate } from "@/components/public/PublicBootGate";
 import { getPublicSite } from "@/lib/public/home-payload";
 import { SITE_LOGO_URL } from "@/lib/public/site-logo";
 import { GG_LAYOUT_WIDTH } from "@/lib/public/gg-layout-width";
@@ -33,7 +32,6 @@ html.gg-public-root.gg-desktop-lock .gg-header-inner{flex-wrap:nowrap!important;
 html.gg-public-root.gg-desktop-lock .gg-split{grid-template-columns:1.05fr 0.95fr!important}
 html.gg-public-root.gg-desktop-lock .gg-plans-rail{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
 html.gg-public-root.gg-desktop-lock .gg-tp-track{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;overflow:visible!important;scroll-snap-type:none!important}
-html.gg-public-root.gg-desktop-boot:not(.gg-desktop-ready) body{visibility:hidden}
 html.gg-public-root,html.gg-public-root body.gg-public{max-width:none;overflow-x:hidden}
 body.gg-public{min-width:0;margin:0}
 `;
@@ -53,11 +51,7 @@ export default async function MarketingLayout({ children }: { children: ReactNod
       <link rel="stylesheet" href="/main/css/font-awesome.min.css" />
       <link rel="stylesheet" href="/main/css/home.css" />
       <link rel="stylesheet" href="/main/css/gg-desktop-lock.css" />
-      <noscript>
-        <style>{`html.gg-desktop-boot body{visibility:visible!important}`}</style>
-      </noscript>
       <MarketingThemeGuard>
-        <PublicBootGate />
         <MarketingHtmlClass />
         {site.googleTranslate ? <GoogleTranslateBar /> : null}
         {children}

@@ -8,6 +8,8 @@ export function ggViewportBootstrapScript(layoutWidth = GG_LAYOUT_WIDTH): string
   return `(function () {
   var layoutWidth = ${layoutWidth};
   var root = document.documentElement;
+  root.classList.remove("dark");
+  root.style.colorScheme = "light";
   root.classList.add("gg-public-root", "gg-desktop-lock", "gg-desktop-boot");
   root.style.setProperty("--gg-desktop-lock-width", layoutWidth + "px");
 
@@ -43,6 +45,20 @@ export function ggViewportBootstrapScript(layoutWidth = GG_LAYOUT_WIDTH): string
     );
   }
 
+  function persistDeviceWidth(w) {
+    try {
+      document.cookie =
+        "gg-vw=" + Math.round(w) + "; path=/; max-age=604800; samesite=lax";
+    } catch (e) {}
+  }
+
+  function markReady() {
+    root.classList.remove("gg-desktop-boot");
+    root.classList.add("gg-desktop-ready", "gg-layout-ready");
+    root.dispatchEvent(new CustomEvent("gg-layout-ready"));
+    root.dispatchEvent(new CustomEvent("gg-desktop-ready"));
+  }
+
   document.querySelectorAll('meta[name="viewport"]').forEach(function (m) {
     if (!m.getAttribute("data-gg-fit")) m.remove();
   });
@@ -56,12 +72,18 @@ export function ggViewportBootstrapScript(layoutWidth = GG_LAYOUT_WIDTH): string
     document.head.appendChild(meta);
   }
 
-  meta.content = viewportContent(computeScale(readDeviceWidth()));
+  var deviceWidth = readDeviceWidth();
+  persistDeviceWidth(deviceWidth);
+  meta.content = viewportContent(computeScale(deviceWidth));
 
   function markBody() {
-    if (document.body) document.body.classList.add("gg-desktop-lock", "gg-public");
+    if (document.body) {
+      document.body.classList.add("gg-desktop-lock", "gg-public");
+    }
   }
   markBody();
   document.addEventListener("DOMContentLoaded", markBody, { once: true });
+
+  markReady();
 })();`;
 }
