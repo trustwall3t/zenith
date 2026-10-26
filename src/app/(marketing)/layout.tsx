@@ -27,8 +27,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const GG_CRITICAL_CSS = `
 html.gg-public-root.gg-desktop-boot{background:#faf9f7}
-html.gg-public-root.gg-desktop-boot:not(.gg-desktop-ready) body{visibility:hidden}
-html.gg-public-root.gg-desktop-ready body{visibility:visible}
+html.gg-public-root.gg-desktop-boot:not(.gg-desktop-ready) .gg-shell{visibility:hidden}
+html.gg-public-root.gg-desktop-ready .gg-shell{visibility:visible}
 html.gg-public-root.gg-desktop-lock .gg-nav-toggle{display:none!important}
 html.gg-public-root.gg-desktop-lock .gg-nav{display:flex!important;position:static!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;padding:0!important;border-bottom:none!important}
 html.gg-public-root.gg-desktop-lock .gg-header-inner{flex-wrap:nowrap!important;position:static!important}
@@ -55,7 +55,7 @@ export default async function MarketingLayout({ children }: { children: ReactNod
       <link rel="stylesheet" href="/main/css/home.css" />
       <link rel="stylesheet" href="/main/css/gg-desktop-lock.css" />
       <noscript>
-        <style>{`html.gg-public-root.gg-desktop-boot body{visibility:visible!important}`}</style>
+        <style>{`html.gg-public-root.gg-desktop-boot .gg-shell{visibility:visible!important}`}</style>
       </noscript>
       <MarketingThemeGuard>
         <PublicBootGate />

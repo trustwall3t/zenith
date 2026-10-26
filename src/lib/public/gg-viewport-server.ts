@@ -3,15 +3,27 @@ import { GG_LAYOUT_WIDTH } from "@/lib/public/gg-layout-width";
 
 const DEFAULT_MOBILE_CSS_WIDTH = 390;
 
-function deviceWidthFromCookie(cookieHeader: string | null): number | null {
+function isMobileUserAgent(userAgent: string): boolean {
+  return /iphone|ipod|ipad|android|mobile|webos|blackberry|iemobile|opera mini/i.test(
+    userAgent,
+  );
+}
+
+function deviceWidthFromCookie(
+  cookieHeader: string | null,
+  userAgent: string,
+): number | null {
   if (!cookieHeader) return null;
   const match = cookieHeader.match(/(?:^|;\s*)gg-vw=(\d+)/);
   if (!match) return null;
   const parsed = parseInt(match[1]!, 10);
-  if (Number.isFinite(parsed) && parsed > 0 && parsed < 2400) {
-    return parsed;
+  if (!Number.isFinite(parsed) || parsed <= 0 || parsed >= 2400) {
+    return null;
   }
-  return null;
+  if (isMobileUserAgent(userAgent) && parsed > 820) {
+    return null;
+  }
+  return parsed;
 }
 
 export function estimateDeviceCssWidth(
@@ -19,7 +31,7 @@ export function estimateDeviceCssWidth(
   viewportWidthClientHint: string | null,
   cookieHeader?: string | null,
 ): number {
-  const fromCookie = deviceWidthFromCookie(cookieHeader ?? null);
+  const fromCookie = deviceWidthFromCookie(cookieHeader ?? null, userAgent);
   if (fromCookie) return fromCookie;
 
   if (viewportWidthClientHint) {
