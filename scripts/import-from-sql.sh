@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Load a Zenith Habour MySQL dump (.sql), then migrate → Supabase via import-zenith-mysql.ts
+# Load a Zenith Aurex MySQL dump (.sql), then migrate → Supabase via import-zenith-mysql.ts
 #
 # Usage:
 #   npm run import:zenith-sql

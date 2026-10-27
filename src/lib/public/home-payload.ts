@@ -10,7 +10,7 @@ import { SITE_LOGO_URL } from "@/lib/public/site-logo";
 import type { HomeStats } from "@/types/site";
 
 const defaultSite: SiteInfo = {
-  siteName: "Zenith Habour",
+  siteName: "Zenith Aurex",
   siteTitle: "Home",
   description: "",
   welcomeMessage: "Welcome. Trade global markets with an Asian focus",

@@ -39,7 +39,7 @@ export async function generateViewport(): Promise<Viewport> {
 
 export const metadata: Metadata = {
 	title: {
-		default: 'Zenith Habour',
+		default: 'Zenith Aurex',
 		template: '%s',
 	},
 	description:

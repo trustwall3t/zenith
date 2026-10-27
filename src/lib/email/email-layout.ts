@@ -32,7 +32,7 @@ export function getEmailSiteName(): string {
   return (
     process.env.EMAIL_FROM_NAME?.trim() ||
     process.env.NEXT_PUBLIC_SITE_NAME?.trim() ||
-    "Zenith Habour"
+    "Zenith Aurex"
   );
 }
 

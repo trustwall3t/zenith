@@ -14,7 +14,7 @@ export async function setGoogleTranslateEnabled(enabled: boolean) {
     where: { id: "default" },
     create: {
       id: "default",
-      siteName: "Zenith Habour",
+      siteName: "Zenith Aurex",
       currency: "$",
       welcomeMessage: "Welcome",
       googleTranslate: enabled,

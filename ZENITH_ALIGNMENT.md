@@ -69,7 +69,7 @@ Response includes `{ copy: {...}, roi: { credited, skipped, expired, weekendSkip
 
 - `/admin/dashboard/copy-traders` — emit signals to active copiers  
 
-## Public marketing (Zenith Habour)
+## Public marketing (Zenith Aurex)
 
 Wired in-app: `(marketing)` route group, `public/main` assets, `/api/public/home`, same URLs as Laravel (`/about`, `/forex`, …). Auth CTAs → `/auth/login` and `/auth/signup`. Refresh assets: `npm run sync:zenith-public`.
 
