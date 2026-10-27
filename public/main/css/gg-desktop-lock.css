@@ -1,22 +1,51 @@
 /**
- * Public site: desktop section layouts when html.gg-public-root.gg-desktop-lock (viewport zoom-to-fit on phones).
+ * Public site: desktop section layouts when html.gg-desktop-lock (viewport zoom-to-fit on phones).
  */
 
-html.gg-public-root.gg-desktop-lock .gg-nav-toggle {
+html.gg-desktop-lock body.gg-public {
+  min-width: var(--gg-desktop-lock-width, 1200px);
+}
+
+html.gg-desktop-lock .gg-trust-bar {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+html.gg-desktop-lock .gg-header {
+  height: var(--gg-header) !important;
+}
+
+html.gg-desktop-lock .gg-hero {
+  align-items: center !important;
+  min-height: 30rem !important;
+  padding: 2.5rem 0 2.75rem !important;
+}
+
+html.gg-desktop-lock .gg-hero-copy {
+  padding: 0 !important;
+  max-width: 38rem !important;
+}
+
+html.gg-desktop-lock .gg-hero-copy > p:not(.gg-kicker) {
+  max-width: 38rem !important;
+  font-size: 0.98rem !important;
+  line-height: 1.62 !important;
+}
+
+html.gg-desktop-lock .gg-nav-toggle {
   display: none !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-header-inner {
+html.gg-desktop-lock .gg-header-inner {
   flex-wrap: nowrap !important;
   position: static !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-header-end > .gg-nav,
-html.gg-public-root.gg-desktop-lock .gg-header-inner > .gg-nav {
+html.gg-desktop-lock .gg-header-end > .gg-nav,
+html.gg-desktop-lock .gg-header-inner > .gg-nav {
   margin-left: auto !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-nav {
+html.gg-desktop-lock .gg-nav {
   display: flex !important;
   position: static !important;
   flex-direction: row !important;
@@ -30,19 +59,19 @@ html.gg-public-root.gg-desktop-lock .gg-nav {
   min-width: 0 !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-nav > a,
-html.gg-public-root.gg-desktop-lock .gg-nav summary {
+html.gg-desktop-lock .gg-nav > a,
+html.gg-desktop-lock .gg-nav summary {
   font-size: 0.8125rem !important;
   padding: 0.35rem 0.45rem !important;
   border-bottom: none !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-nav details {
+html.gg-desktop-lock .gg-nav details {
   position: relative !important;
   border-bottom: none !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-drop {
+html.gg-desktop-lock .gg-drop {
   position: absolute !important;
   top: calc(100% + 0.25rem) !important;
   left: 0 !important;
@@ -50,51 +79,62 @@ html.gg-public-root.gg-desktop-lock .gg-drop {
   box-shadow: 0 8px 24px rgba(26, 35, 50, 0.08) !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-split {
+html.gg-desktop-lock .gg-split {
   grid-template-columns: 1.05fr 0.95fr !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-layout {
+html.gg-desktop-lock .gg-layout {
   grid-template-columns: minmax(0, 1fr) 15rem !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-contact {
+html.gg-desktop-lock .gg-contact {
   grid-template-columns: minmax(14rem, 0.75fr) minmax(0, 1.25fr) !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-footer-grid {
+html.gg-desktop-lock .gg-footer-grid {
   grid-template-columns: 1.4fr 1fr 1fr !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-cards,
-html.gg-public-root.gg-desktop-lock #services .gg-cards {
+html.gg-desktop-lock .gg-cards,
+html.gg-desktop-lock #services .gg-cards {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-cards--values-four {
+html.gg-desktop-lock .gg-cards--values-four {
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-stats {
+html.gg-desktop-lock .gg-stats {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-pairs {
+html.gg-desktop-lock .gg-pairs {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-plans-bento {
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.45fr) !important;
+html.gg-desktop-lock .gg-plans-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: start !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-plans-rail {
+html.gg-desktop-lock .gg-plans-bento {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.45fr) !important;
+  align-items: start !important;
+}
+
+html.gg-desktop-lock .gg-plans-rail {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   overflow-x: visible !important;
   scroll-snap-type: none !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-tp-reviews-shell {
+html.gg-desktop-lock .gg-plan-tier--featured {
+  align-self: start !important;
+  min-height: 0 !important;
+}
+
+html.gg-desktop-lock .gg-tp-reviews-shell {
   width: auto !important;
   max-width: none !important;
   max-height: 37.5rem !important;
@@ -103,14 +143,14 @@ html.gg-public-root.gg-desktop-lock .gg-tp-reviews-shell {
   overflow-y: auto !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-tp-track {
+html.gg-desktop-lock .gg-tp-track {
   display: grid !important;
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   overflow: visible !important;
   scroll-snap-type: none !important;
 }
 
-html.gg-public-root.gg-desktop-lock .gg-tp-card {
+html.gg-desktop-lock .gg-tp-card {
   flex: none !important;
   width: auto !important;
   max-width: none !important;

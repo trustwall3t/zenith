@@ -42,7 +42,8 @@ export const metadata: Metadata = {
 		default: 'Zenith Habour',
 		template: '%s',
 	},
-	description: 'Investment platform — copy trading, plans, and member dashboard.',
+	description:
+		'Live trading, forex, cryptocurrencies, stocks and commodities, investment plans, and member dashboard.',
 };
 
 export default async function RootLayout({

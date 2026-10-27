@@ -34,16 +34,19 @@ export function PublicHeader({ brandName, showTranslate = false }: Props) {
             <details>
               <summary>Markets</summary>
               <div className="gg-drop">
-                <Link href="/optioncopytrading">Options copy trading</Link>
-                <Link href="/stocks">Stocks</Link>
+                <Link href="/livetrading">Live trading</Link>
                 <Link href="/forex">Forex</Link>
+                <Link href="/forex#cryptocurrencies">Cryptocurrencies</Link>
+                <Link href="/stocks">Stocks &amp; equities</Link>
+                <Link href="/advancetrading">Commodities</Link>
+                <Link href="/optioncopytrading">Copy trading</Link>
               </div>
             </details>
             <details>
               <summary>Services</summary>
               <div className="gg-drop">
                 <Link href="/contact">Mutual funds</Link>
-                <Link href="/livetrading">Real estate</Link>
+                <Link href="/futures">Futures</Link>
                 <Link href="/softwares">Retirement</Link>
               </div>
             </details>

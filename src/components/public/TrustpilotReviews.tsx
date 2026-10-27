@@ -41,7 +41,7 @@ export function TrustpilotReviews({
           </div>
           <p className="gg-tp-lead">
             {hasReviews
-              ? "Real testimonials from our clients — shared with their permission."
+              ? "Real testimonials from our clients, shared with their permission."
               : `Customer reviews will appear here as clients share their experience with ${site.siteName}.`}
           </p>
         </header>

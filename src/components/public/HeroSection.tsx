@@ -32,9 +32,9 @@ export function HeroSection({ welcomeMessage }: { welcomeMessage: string }) {
         <h1>Your future is created by</h1>
         <h2>What you do today</h2>
         <p>
-          Mirror an expert and grow value and knowledge through copy trading, a wide
-          range of trading offers, options trading, stocks, derivatives, and currency
-          pairs.
+          Trade live forex, cryptocurrencies, stocks, and commodities on one platform.
+          Session coverage includes Tokyo, Hong Kong, Singapore, and other Asian markets.
+          Copy trading is available when you want to follow published strategies.
         </p>
         <div className="gg-actions">
           <a className="gg-btn" href={authLoginUrl}>

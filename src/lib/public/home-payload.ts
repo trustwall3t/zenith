@@ -13,7 +13,7 @@ const defaultSite: SiteInfo = {
   siteName: "Zenith Habour",
   siteTitle: "Home",
   description: "",
-  welcomeMessage: "Welcome — start your mirror trading journey",
+  welcomeMessage: "Welcome. Trade global markets with an Asian focus",
   currency: "$",
   logoUrl: SITE_LOGO_URL,
   googleTranslate: resolveGoogleTranslateEnabled(true),

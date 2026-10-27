@@ -25,6 +25,15 @@ export function PublicFooter({ brandName }: Props) {
               <Link href="/about">About</Link>
             </li>
             <li>
+              <Link href="/livetrading">Live trading</Link>
+            </li>
+            <li>
+              <Link href="/forex">Forex &amp; crypto</Link>
+            </li>
+            <li>
+              <Link href="/stocks">Stocks</Link>
+            </li>
+            <li>
               <Link href="/contact">Contact</Link>
             </li>
             <li>

@@ -35,17 +35,21 @@ export function PublicSlugBody({ slug, site }: Props) {
               conventional thinking, build businesses, and improve operations.
             </p>
             <p>
-              Over time, we have expanded this approach across asset classes to build one
-              of the stronger alternative asset platforms in the world. We power success
-              across the financial world for individuals and institutions through
-              insights, thinking, and actions.
+              Today {name} serves traders and investors who want live forex and crypto
+              execution, equities and commodity exposure, and structured plans, with
+              workflows tuned for Asian session open through overlap with London and New
+              York. Copy trading remains available for those who prefer mirrored
+              strategies, but it is one channel among many.
             </p>
             <p>
               The shared values of our culture include integrity, collegiality,
               learning, humility, respect for diversity of thought, and a focus on our
               clients.
             </p>
-            <PublicProseCta label="Work with our team" hint="Registered members access plans, copy trading, and reporting in one dashboard." />
+            <PublicProseCta
+              label="Work with our team"
+              hint="Members access live trading, forex, crypto, stocks, commodities, plans, and reporting in one dashboard."
+            />
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -94,7 +98,7 @@ export function PublicSlugBody({ slug, site }: Props) {
               </p>
               <h3>Why invest with {name} asset management funds?</h3>
               <p>
-                We believe investors should be compensated for the risks they take — in
+                We believe investors should be compensated for the risks they take in
                 all market environments. We combine capital markets research, portfolio
                 construction, and risk management to craft solutions that deliver
                 targeted outcomes.
@@ -110,6 +114,23 @@ export function PublicSlugBody({ slug, site }: Props) {
       return (
         <div className="gg-wrap gg-faq">
           <details open>
+            <summary>What can I trade on {name}?</summary>
+            <p>
+              Members can use live trading on streaming quotes, access forex and
+              cryptocurrencies, follow stock and commodity education pages, enroll in
+              investment plans, and optionally subscribe to copy traders, all from one
+              dashboard.
+            </p>
+          </details>
+          <details>
+            <summary>Do you support Asian market hours?</summary>
+            <p>
+              Yes. Quotes and widgets highlight regional indices such as Nikkei and Hang
+              Seng, and forex content calls out JPY, AUD, NZD, and Asian cross pairs
+              during Tokyo, Hong Kong, and Singapore sessions.
+            </p>
+          </details>
+          <details>
             <summary>How can I invest with {name}?</summary>
             <p>
               To make an investment you must first become a member. Once you are signed
@@ -217,6 +238,13 @@ export function PublicSlugBody({ slug, site }: Props) {
             src="/main/images/services/forex1.jpg"
             alt="Currency symbols on a trading screen"
           />
+          <h2>Asian session &amp; cross pairs</h2>
+          <p>
+            When Tokyo, Hong Kong, and Singapore lead volatility, JPY, AUD, NZD, and
+            regional crosses often drive liquidity. We highlight these sessions alongside
+            London and New York so you can plan entries around local economic releases
+            and equity opens.
+          </p>
           <h2>Forex spreads and currency pairs</h2>
           <p>
             Spreads are fed from liquidity providers, with no dealing desk in between.
@@ -225,15 +253,22 @@ export function PublicSlugBody({ slug, site }: Props) {
           </p>
           <h2>Currency pairs</h2>
           <ForexCurrencyPairs />
+          <h2 id="cryptocurrencies">Cryptocurrencies</h2>
+          <p>
+            Trade leading digital assets from the same member hub as forex, with live
+            quotes for short-horizon live trading and longer-term allocation.
+            Crypto markets run 24/7; combine them with Asian FX hours or use them when
+            traditional equity sessions are closed.
+          </p>
           <ul>
             <li>Transparent pricing with competitive spreads on major pairs.</li>
             <li>Leverage up to 1:100 for professional traders where permitted.</li>
-            <li>Cryptocurrencies, stocks, and indices available from the same member hub.</li>
-            <li>Risk tools including stop-loss guidance for copy and self-directed trades.</li>
+            <li>Stocks, indices, and commodities available alongside FX and crypto.</li>
+            <li>Live trading and optional copy strategies from one wallet.</li>
           </ul>
           <PublicProseCta
             label={`Trade with ${name}`}
-            hint="Sign up to access live quotes and copy-trading allocation."
+            hint="Sign up for live quotes, live trading, and multi-asset reporting."
           />
         </PublicServiceLayout>
       );
@@ -244,9 +279,10 @@ export function PublicSlugBody({ slug, site }: Props) {
           <h2>How stock trading works</h2>
           <p>
             Stock trading is a form of investing that prioritizes short-term profits over
-            long-term gains. It can be risky to dive in without the proper knowledge —
-            {name} provides education, tools, and optional copy-trading so you can learn
-            while participating in markets with defined risk.
+            long-term gains. It can be risky to dive in without the proper knowledge.
+            {name} provides education, live quotes, and live trading tools so you can
+            participate in global and Asian-linked equities with defined risk. Optional
+            copy trading is available if you prefer mirrored entries.
           </p>
           <h3>What is stock trading?</h3>
           <p>
@@ -280,11 +316,12 @@ export function PublicSlugBody({ slug, site }: Props) {
           <h3>Where to trade stocks</h3>
           <p>
             To trade stocks you need a broker. {name} aligns tools with your experience:
-            low friction order entry, screening, alerts, and copy-trading for those who
-            prefer to mirror experienced leaders while they learn.
+            screening, alerts, commodity and index context, and the same wallet used for
+            forex, crypto, and live trading, so regional equity themes can sit next to
+            your FX and metals exposure.
           </p>
           <p>
-            The time spent learning how to research stocks is time well spent — as long
+            The time spent learning how to research stocks is time well spent, as long
             as you are not putting money you cannot afford to lose on the line.
           </p>
           <PublicProseCta />
@@ -296,7 +333,7 @@ export function PublicSlugBody({ slug, site }: Props) {
         <PublicServiceLayout brandName={name}>
           <p>
             Futures contracts let you participate in price movements across equity
-            indices, currencies, metals, energy, and agricultural markets — with defined
+            indices, currencies, metals, energy, and agricultural markets, with defined
             margin, expiry, and transparent exchange rules.
           </p>
           <h2>Why futures matter in a diversified plan</h2>
@@ -309,7 +346,9 @@ export function PublicSlugBody({ slug, site }: Props) {
           <h3>Contracts highlighted on our platform</h3>
           <p>Our public quote board and market widgets include:</p>
           <ul>
-            <li>Equity index: S&amp;P 500, US 100, Dow Jones, DAX, FTSE, Nikkei</li>
+            <li>
+              Equity index: Nikkei, Hang Seng, S&amp;P 500, US 100, Dow Jones, DAX, FTSE
+            </li>
             <li>Energy: WTI crude oil, natural gas</li>
             <li>Metals: gold and industrial metals</li>
             <li>Agriculture: corn and related soft commodities</li>
@@ -392,40 +431,38 @@ export function PublicSlugBody({ slug, site }: Props) {
       return (
         <PublicServiceLayout brandName={name}>
           <p>
-            {name} and its affiliates have owned, developed, and managed multifamily,
-            office, industrial, retail, and hotel properties throughout the southeastern
-            and southwestern United States — bringing institutional discipline to real
-            asset exposure.
+            Live trading on {name} lets you open timed up/down positions on streaming
+            market quotes for forex majors, cryptocurrencies, indices, and metals, without
+            switching platforms. Prices refresh for active sessions, including Asian
+            hours when Tokyo and regional benchmarks set the tone for the day.
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="gg-figure"
-            src="/main/images/services/realestate1.jpg"
-            alt="Commercial real estate"
+            src="/main/images/services/forex1.jpg"
+            alt="Live trading charts"
           />
-          <h2>Estate and retirement planning</h2>
+          <h2>How it fits your account</h2>
           <p>
-            Estate planning is not only for people with extensive wealth. It is about
-            making sure that if something happens to you, your family will not be
-            burdened by guessing what you may have wanted. Having a plan for your home,
-            your money, and your possessions means you can continue to help your family
-            reach goals you set together.
+            Live trades draw from your member wallet alongside investment plans, deposits,
+            and withdrawals. History, open positions, and balances stay in one dashboard
+            next to trade signals and scanners when those features are enabled for your
+            account.
           </p>
-          <p>
-            With employer pensions on the decline and uncertainty surrounding Social
-            Security, retirement planning is more important than ever. At {name}, we
-            help you understand how much you will need to retire the way you want, and
-            develop an income strategy to get you there.
-          </p>
-          <h3>Estate planning can help you:</h3>
+          <h3>What you can trade live</h3>
           <ul>
-            <li>Set up trusts for your children</li>
-            <li>Divide property clearly</li>
-            <li>Direct charitable donations</li>
-            <li>Reduce administrative costs and estate taxes where applicable</li>
-            <li>Protect your estate from mismanagement and creditor claims</li>
+            <li>Forex pairs, including crosses active during Asian sessions</li>
+            <li>Major cryptocurrencies</li>
+            <li>Benchmark indices and metals quoted on the platform</li>
+            <li>Complements longer-term stock and commodity themes on other pages</li>
           </ul>
-          <PublicProseCta label="Start planning" />
+          <p>
+            Prefer guidance instead of self-directed entries? See{" "}
+            <Link href="/optioncopytrading">copy trading</Link> or explore{" "}
+            <Link href="/forex">forex &amp; crypto</Link> and{" "}
+            <Link href="/stocks">stocks</Link> for context.
+          </p>
+          <PublicProseCta label="Open live trading" hint="Register to access the member live trading screen." />
         </PublicServiceLayout>
       );
 
@@ -449,7 +486,7 @@ export function PublicSlugBody({ slug, site }: Props) {
           <h3>Where can retirement income come from?</h3>
           <p>Beyond traditional investments, retirement income may include:</p>
           <ul>
-            <li>Annuities — put money away now for income later</li>
+            <li>Annuities: put money away now for income later</li>
             <li>Whole life policies with living benefits after you stop working</li>
             <li>IRAs and employer 401(k) plans combined with platform investment plans</li>
             <li>Dividends and plan ROI credited to your {name} wallet</li>
@@ -464,7 +501,7 @@ export function PublicSlugBody({ slug, site }: Props) {
           <h3>Platform tools</h3>
           <p>
             Members use the dashboard for balances, active plans, copy-trading
-            allocation, transaction history, and withdrawal requests — one secure place
+            allocation, transaction history, and withdrawal requests in one secure place
             to monitor retirement and growth strategies together.
           </p>
         </PublicServiceLayout>
@@ -480,14 +517,15 @@ export function PublicSlugBody({ slug, site }: Props) {
             future, without any requirement to actually buy the asset in question.
           </p>
           <p>
-            At {name}, options copy trading lets you mirror experienced traders who
-            specialize in defined-risk strategies — while you control allocation size
-            from your dashboard.
+            Copy trading on {name} is optional. You can mirror experienced traders who
+            publish defined-risk strategies while you control allocation size from your
+            dashboard, alongside live forex, crypto, and equity tools if you trade
+            directly.
           </p>
           <h3>Key terms</h3>
           <p>
-            <strong>Derivative.</strong> Options derive their value from another asset —
-            for example, stock options move with the underlying share price.
+            <strong>Derivative.</strong> Options derive their value from another asset.
+            For example, stock options move with the underlying share price.
           </p>
           <p>
             <strong>Call and put.</strong> A call gives the opportunity to buy at a
@@ -508,7 +546,7 @@ export function PublicSlugBody({ slug, site }: Props) {
           <p>
             You pay a premium up front, which gives you the right (not the obligation) to
             buy or sell at the strike price by the expiration date. Lower strike calls
-            and higher strike puts carry different intrinsic value profiles — your copy
+            and higher strike puts carry different intrinsic value profiles. Your copy
             leaders document how they approach these setups.
           </p>
           <h2>Copy trading with {name}</h2>
@@ -569,7 +607,7 @@ export function PublicSlugBody({ slug, site }: Props) {
           <div className="gg-prose" style={{ marginBottom: "2rem" }}>
             <p>
               Stay informed with curated headlines from global markets, policy, and
-              business — the same insight section featured on {name}. Each item links to
+              business. This is the same insight section featured on {name}. Each item links to
               its original publisher.
             </p>
             <p>
@@ -614,12 +652,13 @@ export function PublicSlugBody({ slug, site }: Props) {
             account and comply with processing rules. Fees and holding periods, if any,
             are disclosed in the member area before you confirm a withdrawal.
           </p>
-          <h3>Copy trading</h3>
+          <h3>Trading services</h3>
           <p>
-            As a broker specializing in copy trading and financial services, we operate
-            under a published commission structure. For copy trading, a commission fee may
-            apply to profits earned through copy strategies. By using copy trading
-            services, you acknowledge the fee structure shown at subscription time.
+            {name} provides live trading, forex, cryptocurrency, stock, and commodity
+            access together with structured investment plans. Copy trading is optional;
+            where offered, commission or fee terms are shown at subscription time. All
+            trading and investment products carry risk; past performance does not
+            guarantee future results.
           </p>
           <p>
             By accepting these terms in the online enrolment process, you certify that

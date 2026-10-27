@@ -1,4 +1,4 @@
-/* Marketing: light theme, normal responsive layout (no viewport zoom). */
+/* Marketing: light theme; mobile breakpoints disabled when html.gg-desktop-lock is set. */
 
 html.gg-public-root,
 html.gg-public-root.dark {
@@ -148,7 +148,7 @@ body.gg-public .gg-trust-bar {
 }
 
 @media (max-width: 960px) {
-  body.gg-public .gg-trust-bar {
+  html:not(.gg-desktop-lock) body.gg-public .gg-trust-bar {
     grid-template-columns: 1fr;
   }
 }

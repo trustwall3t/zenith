@@ -16,8 +16,8 @@
   --gg-surface: #ffffff;
   --gg-on-accent: #f7f7ff;
   --gg-header: 4.25rem;
-  --gg-serif: "Fraunces", Georgia, "Times New Roman", serif;
-  --gg-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gg-serif: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gg-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --gg-radius: 3px;
   --gg-danger: #9b2c2c;
   --gg-danger-bg: #fdecea;

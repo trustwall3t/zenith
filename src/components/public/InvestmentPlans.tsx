@@ -1,8 +1,44 @@
 import { authSignupUrl } from "@/lib/public/auth-links";
 import type { Plan, SiteInfo } from "@/types/site";
 
+const MARKETING_PLAN_COUNT = 6;
+
 function formatMoney(currency: string, amount: number) {
   return `${currency}${amount.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+}
+
+function formatPlanName(name: string) {
+  return name.replace("Duluxe", "Deluxe");
+}
+
+function PlanCard({
+  plan,
+  site,
+  featured,
+}: {
+  plan: Plan;
+  site: SiteInfo;
+  featured?: boolean;
+}) {
+  return (
+    <>
+      {featured ? <p className="gg-plan-label">Most sought after</p> : null}
+      <h3 className="gg-plan-name">{formatPlanName(plan.name)}</h3>
+      <p className="gg-plan-roi">
+        <span>{plan.incrementAmount}%</span> {plan.incrementInterval}
+      </p>
+      <p className="gg-plan-range">
+        {formatMoney(site.currency, plan.minPrice)} –{" "}
+        {formatMoney(site.currency, plan.maxPrice)}
+      </p>
+      <a
+        className={featured ? "gg-btn gg-btn-ghost" : "gg-btn gg-btn-solid"}
+        href={authSignupUrl}
+      >
+        {featured ? "Get started" : "Choose plan"}
+      </a>
+    </>
+  );
 }
 
 export function InvestmentPlans({
@@ -14,9 +50,10 @@ export function InvestmentPlans({
 }) {
   if (!plans.length) return null;
 
-  const featuredIndex = Math.floor(Math.max(0, plans.length - 1) / 2);
-  const featured = plans[featuredIndex];
-  const companions = plans.filter((_, i) => i !== featuredIndex);
+  const visible = plans.slice(0, MARKETING_PLAN_COUNT);
+  const featuredIndex = Math.floor((visible.length - 1) / 2);
+  const featured = visible[featuredIndex];
+  const companions = visible.filter((_, i) => i !== featuredIndex);
 
   return (
     <section
@@ -28,50 +65,21 @@ export function InvestmentPlans({
           <p className="gg-plans-eyebrow">Investment tiers</p>
           <h2 className="gg-plans-title">Choose a plan aligned with your goals</h2>
           <p className="gg-plans-lead">
-            Transparent minimums, published returns, and flexible durations — register
+            Transparent minimums, published returns, and flexible durations. Register
             to activate any tier.
           </p>
         </header>
         <div className="gg-plans-bento">
           {featured ? (
             <article className="gg-plan-tier gg-plan-tier--featured">
-              <p className="gg-plan-label">Featured tier</p>
-              <h3 className="gg-plan-name">
-                {featured.name.replace("Duluxe", "Deluxe")}
-              </h3>
-              <p className="gg-plan-roi">
-                <span>{featured.incrementAmount}%</span> {featured.incrementInterval}
-              </p>
-              <dl className="gg-plan-meta">
-                <div>
-                  <dt>Minimum</dt>
-                  <dd>{formatMoney(site.currency, featured.minPrice)}</dd>
-                </div>
-                <div>
-                  <dt>Maximum</dt>
-                  <dd>{formatMoney(site.currency, featured.maxPrice)}</dd>
-                </div>
-              </dl>
-              <a className="gg-btn gg-btn-ghost" href={authSignupUrl}>
-                Get started
-              </a>
+              <PlanCard plan={featured} site={site} featured />
             </article>
           ) : null}
           {companions.length ? (
             <div className="gg-plans-rail" role="list">
               {companions.map((plan) => (
                 <article key={plan.id} className="gg-plan-tier">
-                  <h3 className="gg-plan-name">{plan.name}</h3>
-                  <p className="gg-plan-roi">
-                    <span>{plan.incrementAmount}%</span> {plan.incrementInterval}
-                  </p>
-                  <p className="gg-plan-range">
-                    {formatMoney(site.currency, plan.minPrice)} –{" "}
-                    {formatMoney(site.currency, plan.maxPrice)}
-                  </p>
-                  <a className="gg-btn gg-btn-solid" href={authSignupUrl}>
-                    Choose plan
-                  </a>
+                  <PlanCard plan={plan} site={site} />
                 </article>
               ))}
             </div>

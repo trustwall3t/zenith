@@ -20,19 +20,21 @@ export function HomePageIntroSections({ site }: { site: SiteInfo }) {
             <p className="gg-kicker">About us</p>
             <h2>Different kinds of financial services</h2>
             <p>
-              {name} is a profitable and trusted investment program, established by a
-              strong team of highly skilled traders and investment consultants in the
-              offline and online investment market.
+              {name} combines live trading, forex, digital assets, equities, and
+              commodities in one member platform. The stack is built for traders who
+              follow global sessions, with attention to liquidity and news flow across
+              Asian markets.
             </p>
             <p>
-              We put your investments in new, highly remunerative innovative projects,
-              which offer strong returns. Today our company has a professional team to
-              develop the business.
+              Self-directed live trading, structured investment plans, and optional copy
+              trading sit alongside real-time quotes, scanners, and signals in your
+              dashboard so you can act on opportunities in Tokyo, Hong Kong, Singapore,
+              and London and New York hours from a single account.
             </p>
             <p>
-              We know how much, where, and when to put your investments, and we know how
-              to pursue income. We are constantly diversifying our investment portfolio
-              and building stronger connections worldwide.
+              Our team focuses on execution quality, transparent reporting, and risk
+              tools across product lines so you can diversify by asset class and stay
+              aligned with your goals.
             </p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -50,10 +52,10 @@ export function HomePageIntroSections({ site }: { site: SiteInfo }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/main/images/features/feature1.jpg" alt="Advisor meeting with a client" />
             <div className="gg-card-body">
-              <h3>Best consulting</h3>
+              <h3>Live trading</h3>
               <p>
-                You have ideas, goals, and dreams. Mutual funds pool money from many
-                investors to purchase a broad range of investments, such as stocks.
+                Open timed positions on live quotes for major forex pairs, crypto, indices,
+                and metals, with charts and wallet integration in the member area.
               </p>
             </div>
           </article>
@@ -61,10 +63,10 @@ export function HomePageIntroSections({ site }: { site: SiteInfo }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/main/images/features/feature2.jpg" alt="Market chart on a desk" />
             <div className="gg-card-body">
-              <h3>Market growth</h3>
+              <h3>Forex &amp; crypto</h3>
               <p>
-                We are constantly diversifying the investment portfolio and building
-                stronger connections worldwide.
+                Trade major, minor, and Asian cross pairs alongside leading
+                cryptocurrencies, with spreads and session tools for 24-hour markets.
               </p>
             </div>
           </article>
@@ -72,8 +74,11 @@ export function HomePageIntroSections({ site }: { site: SiteInfo }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/main/images/features/feature3.jpg" alt="Clock beside planning notes" />
             <div className="gg-card-body">
-              <h3>On time services</h3>
-              <p>We know how much, where, and when to put your investments.</p>
+              <h3>Stocks &amp; commodities</h3>
+              <p>
+                Equities, energy, metals, and agricultural benchmarks, plus futures
+                widgets for Nikkei, Hang Seng, and regional benchmarks.
+              </p>
             </div>
           </article>
         </div>
@@ -88,40 +93,44 @@ export function HomePageIntroSections({ site }: { site: SiteInfo }) {
               src="/main/images/forex_trade.jpg"
               alt="Trader looking at currency charts"
             />
-            <h2>How to trade options in four steps</h2>
+            <h2>Built for global sessions, with focus on Asia</h2>
             <ul className="gg-list">
               <li>
-                <strong>Investment objectives.</strong> This usually includes income,
-                growth, capital preservation, or speculation.
+                <strong>Asian cash &amp; FX.</strong> Follow JPY, AUD, NZD, CNH-related
+                pairs and regional indices when Tokyo, Hong Kong, and Singapore are
+                active.
               </li>
               <li>
-                <strong>Trading experience.</strong> The broker will want to know your
-                knowledge of investing, how long you have been trading stocks or
-                options, how many trades you make per year, and the size of your trades.
+                <strong>Live trading.</strong> Act on streaming prices for forex, crypto,
+                and benchmark contracts without leaving the dashboard.
               </li>
               <li>
-                <strong>Personal financial information.</strong> Have on hand your liquid
-                net worth, annual income, total net worth, and employment information.
+                <strong>Stocks &amp; commodities.</strong> Combine equity themes with
+                gold, oil, and industrial metals for diversified exposure.
               </li>
               <li>
-                <strong>The types of options you want to trade.</strong> For instance,
-                calls, puts, or spreads, and whether they are covered or naked.
+                <strong>Copy trading (optional).</strong> Mirror selected leaders when
+                you prefer a guided allocation alongside self-directed trades.
               </li>
             </ul>
           </div>
           <div>
-            <h2>Options trading</h2>
+            <h2>One platform, multiple asset classes</h2>
             <p>
-              Options trading is when you buy or sell an underlying asset at a
-              pre-negotiated price by a certain future date.
+              {name} is not a copy-trading-only broker. Members use live trading for
+              short-horizon positions, forex and crypto for round-the-clock liquidity,
+              and stocks and commodities for longer themes. Everything reports to one
+              wallet and transaction history.
             </p>
             <p>
-              Trading stock options can be complex — even more so than stock trading.
-              Options trading requires an understanding of advanced strategies.
+              Market tickers and TradingView widgets on this site surface indices, FX,
+              bonds, and futures so you can monitor Nikkei, Hang Seng, S&amp;P 500, and
+              major FX crosses before you sign in.
             </p>
             <p>
-              “You can use options to speculate and to gamble, but the reality is ...
-              the best use of options is to protect your downside,” experts say.
+              <Link href="/livetrading">Explore live trading</Link>,{" "}
+              <Link href="/forex">forex &amp; crypto</Link>, and{" "}
+              <Link href="/stocks">stocks</Link> to see how each fits your plan.
             </p>
           </div>
         </div>
@@ -136,7 +145,8 @@ export function HomePageMarketsSection() {
       <div className="gg-wrap">
         <h2>Markets</h2>
         <p className="gg-lead">
-          Live quotes for indices, futures, bonds, and foreign exchange.
+          Live quotes for indices (including Nikkei and Hang Seng), futures, bonds, forex,
+          and crypto, updated for active Asian and global sessions.
         </p>
         <TradingViewMarketQuotes />
       </div>
@@ -167,11 +177,11 @@ export function HomePageRestSections({ site, stats }: Props) {
           />
         </div>
         <div className="gg-wrap" style={{ marginTop: "2.5rem" }}>
-          <h2>Mirror your desired expert</h2>
+          <h2>Live trading &amp; optional copy strategies</h2>
           <p>
-            {name} offers automated mirror trading services across sectors. Find your
-            desired expert, get your account linked to their services, and mirror the
-            trades.
+            Use live trading for your own entries on streaming quotes, or subscribe to
+            copy traders when you want mirrored signals. Forex, crypto, equities, and
+            commodities share the same member workflow, history, and balances.
           </p>
         </div>
       </section>
@@ -183,12 +193,34 @@ export function HomePageRestSections({ site, stats }: Props) {
           <div className="gg-cards" style={{ marginTop: "1.4rem" }}>
             <article className="gg-card">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/main/images/services/mutualfunds1.jpg" alt="Mutual funds" />
+              <img src="/main/images/services/forex1.jpg" alt="Live trading terminal" />
               <div className="gg-card-body">
-                <h3>Mutual funds</h3>
-                <p>Mutual funds are steadily making an entry into household savings.</p>
+                <h3>Live trading</h3>
+                <p>Timed positions on live forex, crypto, and benchmark quotes.</p>
                 <p>
-                  <Link href="/contact">Read more</Link>
+                  <Link href="/livetrading">Read more</Link>
+                </p>
+              </div>
+            </article>
+            <article className="gg-card">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/main/images/forex_trade.jpg" alt="Forex and crypto" />
+              <div className="gg-card-body">
+                <h3>Forex &amp; crypto</h3>
+                <p>Major and Asian cross pairs plus leading digital assets.</p>
+                <p>
+                  <Link href="/forex">Read more</Link>
+                </p>
+              </div>
+            </article>
+            <article className="gg-card">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/main/images/services/stock1.jpg" alt="Stock trading" />
+              <div className="gg-card-body">
+                <h3>Stocks &amp; equities</h3>
+                <p>Education, tools, and trading themes for global equities.</p>
+                <p>
+                  <Link href="/stocks">Read more</Link>
                 </p>
               </div>
             </article>
@@ -197,7 +229,7 @@ export function HomePageRestSections({ site, stats }: Props) {
               <img src="/main/images/services/commodity1.jpg" alt="Commodities" />
               <div className="gg-card-body">
                 <h3>Commodities</h3>
-                <p>Efficient exposure to commodity benchmarks since 2015.</p>
+                <p>Metals, energy, and agricultural benchmarks since 2015.</p>
                 <p>
                   <Link href="/advancetrading">Read more</Link>
                 </p>
@@ -205,45 +237,23 @@ export function HomePageRestSections({ site, stats }: Props) {
             </article>
             <article className="gg-card">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/main/images/services/realestate1.jpg" alt="Real estate" />
+              <img src="/main/images/services/mutualfunds1.jpg" alt="Mutual funds" />
               <div className="gg-card-body">
-                <h3>Real estate</h3>
-                <p>Multifamily, office, industrial, retail, and hotel properties.</p>
+                <h3>Mutual funds</h3>
+                <p>Diversified fund strategies alongside your trading wallet.</p>
                 <p>
-                  <Link href="/livetrading">Read more</Link>
+                  <Link href="/contact">Read more</Link>
                 </p>
               </div>
             </article>
             <article className="gg-card">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/main/images/services/oil1.jpg" alt="Oil and gas" />
+              <img src="/main/images/tabs/img3.png" alt="Copy trading" />
               <div className="gg-card-body">
-                <h3>Oil and gas</h3>
-                <p>Stewardship, teamwork, and resiliency in energy production.</p>
+                <h3>Copy trading</h3>
+                <p>Optional mirrored strategies when you want to follow experienced leaders.</p>
                 <p>
-                  <Link href="/oilandgas">Read more</Link>
-                </p>
-              </div>
-            </article>
-            <article className="gg-card">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/main/images/services/infrastructure1.jpg"
-                alt="Infrastructure"
-              />
-              <div className="gg-card-body">
-                <h3>Infrastructure</h3>
-                <p>Investments managed with passion, experience, and relationships.</p>
-              </div>
-            </article>
-            <article className="gg-card">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/main/images/tabs/img3.png" alt="Stock market display" />
-              <div className="gg-card-body">
-                <h3>Stocks and options</h3>
-                <p>Copy trading and modern market data on {name}.</p>
-                <p>
-                  <Link href="/stocks">Read more</Link>
+                  <Link href="/optioncopytrading">Read more</Link>
                 </p>
               </div>
             </article>
@@ -354,7 +364,7 @@ export function HomePageRestSections({ site, stats }: Props) {
           <div className="gg-cards gg-cards--values-four">
             {[
               ["Highly ambitious", "We strive to build world-class businesses to generate superior returns."],
-              ["Winning", "We are here to win — constantly improving and out-executing competitors."],
+              ["Winning", "We aim to improve execution and service continuously."],
               ["Integrity", "We do things the right way, without compromise, the first time, every time."],
               ["Learning", "We are driven by a thirst for knowledge and pursue new ideas and strategies."],
             ].map(([h, p]) => (

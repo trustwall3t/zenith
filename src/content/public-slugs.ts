@@ -33,7 +33,7 @@ export const SLUG_META: Record<PublicSlug, SlugMeta> = {
   about: {
     title: "About us",
     kicker: "About",
-    lead: "Global asset management with a consulting-based approach to private investing.",
+    lead: "Multi-asset trading and investment services with emphasis on Asian market sessions.",
   },
   terms: {
     title: "Terms and conditions",
@@ -48,17 +48,17 @@ export const SLUG_META: Record<PublicSlug, SlugMeta> = {
   futures: {
     title: "Futures trading",
     kicker: "Futures",
-    lead: "Index, energy, metal, and agricultural contracts — with links to related markets.",
+    lead: "Index, energy, metal, and agricultural contracts with links to related markets.",
   },
   forex: {
-    title: "Forex trading",
-    kicker: "Forex",
-    lead: "60+ currency pairs, transparent spreads, and professional-grade execution.",
+    title: "Forex & cryptocurrencies",
+    kicker: "Forex & crypto",
+    lead: "Currency pairs with Asian crosses, 24-hour liquidity, and major digital assets.",
   },
   stocks: {
     title: "Stock trading",
     kicker: "Stocks",
-    lead: "Active and day trading education, tools, and optional copy-trading.",
+    lead: "Global equities education and tools alongside commodities and live quotes.",
   },
   advancetrading: {
     title: "Commodities",
@@ -71,9 +71,9 @@ export const SLUG_META: Record<PublicSlug, SlugMeta> = {
     lead: "Energy sector expertise, stewardship, and structured member participation.",
   },
   livetrading: {
-    title: "Real estate",
-    kicker: "Real estate",
-    lead: "Real assets, estate planning, and long-horizon wealth strategies.",
+    title: "Live trading",
+    kicker: "Live trading",
+    lead: "Streamed quotes and timed positions on forex, crypto, indices, and metals.",
   },
   softwares: {
     title: "Retirement planning",
@@ -81,9 +81,9 @@ export const SLUG_META: Record<PublicSlug, SlugMeta> = {
     lead: "Income strategies, compounding, and dashboard tools for life after work.",
   },
   optioncopytrading: {
-    title: "Options copy trading",
-    kicker: "Options copy trading",
-    lead: "Understand options — then mirror experienced traders with defined allocation.",
+    title: "Copy trading",
+    kicker: "Copy trading",
+    lead: "Optional mirrored strategies within a broader forex, crypto, and equities platform.",
   },
   contact: {
     title: "Contact",
@@ -93,7 +93,7 @@ export const SLUG_META: Record<PublicSlug, SlugMeta> = {
   faq: {
     title: "Frequently asked questions",
     kicker: "FAQ",
-    lead: "Answers about accounts, plans, withdrawals, copy trading, and support.",
+    lead: "Accounts, live trading, forex, crypto, stocks, commodities, plans, and support.",
   },
   statistic: {
     title: "Our latest news",
